@@ -1,8 +1,11 @@
+import { browserScheduler } from '../src/core/scheduler';
+
 let animationFrames;
 let frameId;
 let now;
 
 beforeEach(() => {
+  browserScheduler.clear();
   animationFrames = new Map();
   frameId = 0;
   now = 0;
@@ -25,6 +28,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  browserScheduler.clear();
   jest.restoreAllMocks();
 });
 

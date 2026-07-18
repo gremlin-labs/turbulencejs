@@ -1,5 +1,6 @@
 import { createEasing } from './easing';
 import { applyProperties, parseProperties } from './values';
+import { browserScheduler } from './scheduler';
 
 const activeAnimations = new Map();
 const controllerDefinitions = new WeakMap();
@@ -28,13 +29,13 @@ function reducedMotionRequested(options = {}) {
 
 function ensureLoop() {
   if (loopRequest === null && [...activeAnimations.values()].some(animation => animation.state === 'playing')) {
-    loopRequest = requestAnimationFrame(animationLoop);
+    loopRequest = browserScheduler.schedule(animationLoop);
   }
 }
 
 function stopLoopIfIdle() {
   if (loopRequest !== null && ![...activeAnimations.values()].some(animation => animation.state === 'playing')) {
-    cancelAnimationFrame(loopRequest);
+    browserScheduler.cancel(loopRequest);
     loopRequest = null;
   }
 }
@@ -108,19 +109,19 @@ function play(animation) {
   if (!animation || animation.state === 'completed' || animation.state === 'cancelled' || animation.state === 'playing') return;
   if (animation.state === 'paused') return resumeAnimation(animation);
   animation.state = 'playing';
-  animation.startTime = performance.now();
+  animation.startTime = browserScheduler.now();
   ensureLoop();
 }
 
 function pauseAnimation(animation) {
   if (!animation || animation.state !== 'playing') return;
   animation.state = 'paused';
-  animation.pausedAt = performance.now();
+  animation.pausedAt = browserScheduler.now();
 }
 
 function resumeAnimation(animation) {
   if (!animation || animation.state !== 'paused') return;
-  animation.pausedDuration += performance.now() - animation.pausedAt;
+  animation.pausedDuration += browserScheduler.now() - animation.pausedAt;
   animation.pausedAt = null;
   animation.state = 'playing';
   ensureLoop();
@@ -129,7 +130,7 @@ function resumeAnimation(animation) {
 function reverseAnimation(animation) {
   if (!animation || animation.state === 'completed' || animation.state === 'cancelled') return;
   if (animation.config.duration === 0) return;
-  const now = animation.state === 'paused' ? animation.pausedAt : performance.now();
+  const now = animation.state === 'paused' ? animation.pausedAt : browserScheduler.now();
   const elapsed = Math.max(0, now - animation.startTime - animation.pausedDuration - animation.config.delay);
   const finiteDuration = animation.config.repeat === -1
     ? null

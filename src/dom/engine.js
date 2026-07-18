@@ -1,4 +1,4 @@
-import { Turbulence, rafDriver } from '../runtime';
+import { Turbulence, rafDriver } from 'turbulencejs';
 
 export function detectReducedMotion() {
   if (typeof window === 'undefined' || !window.matchMedia) return false;
@@ -36,4 +36,3 @@ export function createEngine(options = {}) {
 
   return engine;
 }
-

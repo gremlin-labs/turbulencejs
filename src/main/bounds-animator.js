@@ -1,4 +1,4 @@
-import { roundRect } from '../runtime';
+import { roundRect } from 'turbulencejs';
 
 export function safeSetBounds(target, bounds) {
   try {

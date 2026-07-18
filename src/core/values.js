@@ -5,6 +5,7 @@ import {
   setTransformValue,
   transformToString
 } from '../utils/transform';
+import { lerp } from '../runtime';
 
 const COLOR_PROPERTIES = new Set(['color', 'backgroundColor', 'borderColor', 'outlineColor', 'fill', 'stroke']);
 const UNITLESS_PROPERTIES = new Set(['opacity', 'zIndex', 'fontWeight', 'lineHeight', 'flexGrow', 'flexShrink', 'order']);
@@ -56,20 +57,20 @@ function interpolateUnits(from, to, progress) {
   const fromMatch = String(from).match(/^(-?\d*\.?\d+)(.*)$/);
   const toMatch = String(to).match(/^(-?\d*\.?\d+)(.*)$/);
   if (!fromMatch || !toMatch || fromMatch[2] !== toMatch[2]) return progress < 0.5 ? from : to;
-  const value = Number(fromMatch[1]) + (Number(toMatch[1]) - Number(fromMatch[1])) * progress;
+  const value = lerp(Number(fromMatch[1]), Number(toMatch[1]), progress);
   return `${value}${fromMatch[2]}`;
 }
 
 function interpolateValue(from, to, progress, isColor) {
   if (isColor) {
     return rgbaToString({
-      r: Math.round(from.r + (to.r - from.r) * progress),
-      g: Math.round(from.g + (to.g - from.g) * progress),
-      b: Math.round(from.b + (to.b - from.b) * progress),
-      a: from.a + (to.a - from.a) * progress
+      r: Math.round(lerp(from.r, to.r, progress)),
+      g: Math.round(lerp(from.g, to.g, progress)),
+      b: Math.round(lerp(from.b, to.b, progress)),
+      a: lerp(from.a, to.a, progress)
     });
   }
-  if (typeof from === 'number' && typeof to === 'number') return from + (to - from) * progress;
+  if (typeof from === 'number' && typeof to === 'number') return lerp(from, to, progress);
   return interpolateUnits(from, to, progress);
 }
 

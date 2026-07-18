@@ -1,5 +1,6 @@
 import { effectLifecycle } from '../core/effect';
 import { getCurrentTransform, setTransformValue, transformToString } from './transform';
+import { browserScheduler } from '../core/scheduler';
 
 const DEFAULT_SPRING_CONFIG = {
   mass: 1,
@@ -75,6 +76,7 @@ export function springTo(element, property, initialTarget, options = {}) {
   let state = 'playing';
   const lifecycle = effectLifecycle(options);
   const reduce = reducedMotionRequested(options);
+  const scheduler = options.scheduler || browserScheduler;
 
   const apply = value => {
     if (transformProperty) {
@@ -94,7 +96,7 @@ export function springTo(element, property, initialTarget, options = {}) {
       requestId = null;
       lifecycle.onComplete(element);
     } else {
-      requestId = requestAnimationFrame(frame);
+      requestId = scheduler.schedule(frame);
     }
   };
 
@@ -102,7 +104,7 @@ export function springTo(element, property, initialTarget, options = {}) {
     stop() {
       if (state !== 'playing') return;
       state = 'cancelled';
-      if (requestId !== null) cancelAnimationFrame(requestId);
+      if (requestId !== null) scheduler.cancel(requestId);
       requestId = null;
       lifecycle.onCancel(element);
     },
@@ -115,7 +117,7 @@ export function springTo(element, property, initialTarget, options = {}) {
       }
       if (state !== 'playing') {
         state = 'playing';
-        requestId = requestAnimationFrame(frame);
+        requestId = scheduler.schedule(frame);
       }
       return controller;
     },
@@ -130,7 +132,7 @@ export function springTo(element, property, initialTarget, options = {}) {
       lifecycle.onComplete(element);
     });
   } else {
-    requestId = requestAnimationFrame(frame);
+    requestId = scheduler.schedule(frame);
   }
   return controller;
 }

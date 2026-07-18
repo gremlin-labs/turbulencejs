@@ -1,4 +1,4 @@
-import { roundRect } from '../runtime';
+import { roundRect } from 'turbulencejs';
 
 export class Layout {
   constructor(engine, compute, defaults = {}) {
@@ -112,4 +112,3 @@ export class Layout {
     if (this._disposed) throw new Error('turbulence: Layout is disposed');
   }
 }
-

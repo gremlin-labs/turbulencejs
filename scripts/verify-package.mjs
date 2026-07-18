@@ -54,6 +54,9 @@ try {
     if (!commonjsCode.includes("require('turbulencejs')") && name !== 'subtle' && name !== 'extreme' && name !== 'runtime') {
       throw new Error(`${name} CommonJS pack does not externalize the root Turbulence runtime.`);
     }
+    if ((name === 'dom' || name === 'main') && (code.toString().includes('class Ticker') || commonjsCode.includes('class Ticker'))) {
+      throw new Error(`${name} pack embeds a duplicate generic runtime.`);
+    }
     await readFile(join(packageRoot, entry.types), 'utf8');
   }
 

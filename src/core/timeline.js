@@ -1,5 +1,6 @@
 import { takeAnimationDefinition } from './engine';
 import { playbackUnitDuration, propertyPlaybackUnit, validatePlaybackUnit } from './units';
+import { browserScheduler } from './scheduler';
 
 function resolveOffset(offset, duration) {
   if (typeof offset === 'number') return Math.max(0, offset);
@@ -23,6 +24,7 @@ function entryProgress(entry, time) {
 
 class Timeline {
   constructor(options = {}) {
+    this.scheduler = options.scheduler || browserScheduler;
     this.animations = [];
     this.marks = [];
     this.currentTime = 0;
@@ -120,7 +122,7 @@ class Timeline {
       return this;
     }
     this.anchorTime = this.currentTime;
-    this.anchorTimestamp = performance.now();
+    this.anchorTimestamp = this.scheduler.now();
     this.schedule();
     return this;
   }
@@ -128,7 +130,7 @@ class Timeline {
   pause() {
     if (!this.isPlaying) return this;
     this.isPlaying = false;
-    if (this.requestId !== null) cancelAnimationFrame(this.requestId);
+    if (this.requestId !== null) this.scheduler.cancel(this.requestId);
     this.requestId = null;
     return this;
   }
@@ -186,7 +188,7 @@ class Timeline {
     if (!this.isPlaying && !this.isComplete && this.currentTime === 0) this.currentTime = this.duration;
     this.direction *= -1;
     this.anchorTime = this.currentTime;
-    this.anchorTimestamp = performance.now();
+    this.anchorTimestamp = this.scheduler.now();
     if (!this.isPlaying) this.play();
     return this;
   }
@@ -195,7 +197,7 @@ class Timeline {
     const previousTime = this.currentTime;
     this.currentTime = Math.max(0, Math.min(Number(time) || 0, this.duration));
     this.anchorTime = this.currentTime;
-    this.anchorTimestamp = performance.now();
+    this.anchorTimestamp = this.scheduler.now();
     this.renderAt(this.currentTime);
     if (emitMarks) this.emitMarks(this.currentTime, previousTime, true);
     return this;
@@ -203,7 +205,7 @@ class Timeline {
 
   setTimeScale(scale) {
     this.anchorTime = this.currentTime;
-    this.anchorTimestamp = performance.now();
+    this.anchorTimestamp = this.scheduler.now();
     this.timeScale = Math.max(0.001, Number(scale) || 0.001);
     return this;
   }
@@ -214,7 +216,7 @@ class Timeline {
 
   schedule() {
     if (this.requestId === null && this.isPlaying) {
-      this.requestId = requestAnimationFrame(timestamp => this.tick(timestamp));
+      this.requestId = this.scheduler.schedule(timestamp => this.tick(timestamp));
     }
   }
 

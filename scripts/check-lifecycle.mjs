@@ -41,7 +41,8 @@ function requireOwnership(pathSuffix, patterns) {
   }
 }
 
-requireOwnership('/src/core/timeline.js', [[/requestAnimationFrame/, 'timeline must remain the playback clock'], [/cancelAnimationFrame/, 'timeline must cancel its frame']]);
+requireOwnership('/src/core/timeline.js', [[/this\.scheduler\.schedule/, 'timeline must remain the playback clock through the shared scheduler'], [/this\.scheduler\.cancel/, 'timeline must cancel its shared frame subscription']]);
+requireOwnership('/src/core/scheduler.js', [[/rafDriver/, 'browser scheduling must adapt the shared runtime driver'], [/callbacks = new Map/, 'browser scheduling must coalesce frame owners'], [/driver\.cancel/, 'shared scheduling must cancel its underlying frame when idle']]);
 requireOwnership('/src/core/units.js', [[/render/, 'playback units require a render contract'], [/capabilities/, 'playback units require capability metadata']]);
 requireOwnership('/src/turbscript/compiler.js', [[/AbortController/, 'drivers require an abort scope'], [/registeredCleanups/, 'driver setup requires rollback ownership']]);
 requireOwnership('/src/surfaces/layer.js', [[/aria-hidden/, 'surface layers must be decorative'], [/pointerEvents:\s*'none'/, 'surface layers must not intercept input'], [/canvas\.remove\(\)/, 'surface layers must remove their canvas']]);

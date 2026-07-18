@@ -1,0 +1,118 @@
+{
+  "name": "turbulencejs",
+  "version": "2.0.0",
+  "description": "Motion, choreography, effects, and Electron layout coordination for web and desktop applications.",
+  "main": "dist/turbulencejs.cjs",
+  "module": "dist/turbulencejs.esm.js",
+  "browser": "dist/turbulencejs.min.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/turbulencejs.esm.js",
+      "require": "./dist/turbulencejs.cjs",
+      "default": "./dist/turbulencejs.esm.js"
+    },
+    "./cartoon": {
+      "types": "./dist/cartoon.d.ts",
+      "import": "./dist/cartoon.js",
+      "require": "./dist/cartoon.cjs",
+      "default": "./dist/cartoon.js"
+    },
+    "./cinematic": {
+      "types": "./dist/cinematic.d.ts",
+      "import": "./dist/cinematic.js",
+      "require": "./dist/cinematic.cjs",
+      "default": "./dist/cinematic.js"
+    },
+    "./subtle": {
+      "types": "./dist/subtle.d.ts",
+      "import": "./dist/subtle.js",
+      "require": "./dist/subtle.cjs",
+      "default": "./dist/subtle.js"
+    },
+    "./extreme": {
+      "types": "./dist/extreme.d.ts",
+      "import": "./dist/extreme.js",
+      "require": "./dist/extreme.cjs",
+      "default": "./dist/extreme.js"
+    },
+    "./surfaces": {
+      "types": "./dist/surfaces.d.ts",
+      "import": "./dist/surfaces.js",
+      "require": "./dist/surfaces.cjs",
+      "default": "./dist/surfaces.js"
+    },
+    "./surface-worker": {
+      "import": "./dist/surface-worker.js",
+      "require": "./dist/surface-worker.js",
+      "default": "./dist/surface-worker.js"
+    },
+    "./effects": {
+      "types": "./dist/effects.d.ts",
+      "import": "./dist/effects.js",
+      "require": "./dist/effects.cjs",
+      "default": "./dist/effects.js"
+    },
+    "./interact": {
+      "types": "./dist/interact.d.ts",
+      "import": "./dist/interact.js",
+      "require": "./dist/interact.cjs",
+      "default": "./dist/interact.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/clean-dist.mjs && rollup -c && node scripts/copy-types.mjs",
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "lint": "eslint src test examples/showcase/src *.config.js",
+    "lifecycle:check": "node scripts/check-lifecycle.mjs",
+    "motion:check": "node scripts/check-motion-system.mjs",
+    "typecheck": "tsc -p test/types/tsconfig.json",
+    "verify:package": "node scripts/verify-package.mjs",
+    "showcase:build": "npm --prefix examples/showcase run build",
+    "showcase:verify": "npm test -- --runInBand && npm run lint && npm run build && npm run showcase:build",
+    "verify": "npm test -- --runInBand && npm run lint && npm run lifecycle:check && npm run motion:check && npm run build && npm run typecheck && npm run verify:package && npm run showcase:build",
+    "prepublishOnly": "npm run verify"
+  },
+  "keywords": [
+    "animation",
+    "saas",
+    "ui",
+    "motion",
+    "transitions",
+    "lightweight"
+  ],
+  "author": "gremlinlabs",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.9",
+    "@babel/preset-env": "^7.26.9",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "eslint": "^9.21.0",
+    "globals": "^15.15.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "rollup": "^4.34.8",
+    "typescript": "^5.9.3"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "directories": {
+    "example": "examples"
+  },
+  "type": "module"
+}

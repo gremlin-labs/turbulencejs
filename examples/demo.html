@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbulence Animation Library Demo - Enhanced</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #f7f9fc;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    h1 {
+      font-weight: 700;
+      color: #2563EB;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #6B7280;
+    }
+
+    .demo-section {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+      min-height: 150px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #2563EB;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #1E40AF;
+    }
+
+    .btn-secondary {
+      background-color: #4F46E5;
+    }
+
+    .btn-success {
+      background-color: #10B981;
+    }
+
+    .btn-danger {
+      background-color: #EF4444;
+    }
+
+    .btn-warning {
+      background-color: #F59E0B;
+    }
+
+    .btn-purple {
+      background-color: #8B5CF6;
+    }
+
+    .btn-pink {
+      background-color: #EC4899;
+    }
+
+    .btn-cyan {
+      background-color: #06B6D4;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      background-color: #10B981;
+      color: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateX(120%);
+    }
+
+    .toast.error {
+      background-color: #EF4444;
+    }
+
+    .toast.info {
+      background-color: #3B82F6;
+    }
+
+    .toast.warning {
+      background-color: #F59E0B;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      opacity: 0;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: white;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      margin-top: 5px;
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .dropdown-menu.open {
+      max-height: 300px;
+      opacity: 1;
+    }
+
+    .dropdown-item {
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f3f4f6;
+    }
+
+    .loading-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 50px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      background-color: #2563EB;
+      border-radius: 50%;
+    }
+
+    .list-item {
+      padding: 15px;
+      margin-bottom: 8px;
+      background-color: white;
+      border-radius: 6px;
+      border: 1px solid #e5e7eb;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #10B981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      transform: scale(0);
+    }
+
+    .success-icon svg {
+      width: 30px;
+      height: 30px;
+      color: white;
+    }
+
+    .confirmation-message {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    code {
+      background-color: #f3f4f6;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+
+    .animation-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .animation-controls button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .toast-container .toast {
+      pointer-events: auto;
+      transform: translateX(120%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Turbulence</h1>
+      <p class="subtitle">A lightweight animation library for SaaS applications</p>
+      <p>Enhanced with dramatic animations</p>
+    </header>
+
+    <div class="demo-section">
+      <h2>Button Animations</h2>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <button id="pulseButton" class="btn-primary">Pulse</button>
+        </div>
+        <div class="demo-item">
+          <button id="bounceButton" class="btn-secondary">Bounce</button>
+        </div>
+        <div class="demo-item">
+          <button id="shimmerButton" class="btn-success">Shimmer</button>
+        </div>
+        <div class="demo-item">
+          <button id="jellyButton" class="btn-danger">Jelly</button>
+        </div>
+        <div class="demo-item">
+          <button id="vibrateButton" class="btn-warning">Vibrate</button>
+        </div>
+        <div class="demo-item">
+          <button id="chaosButton" class="btn-purple">Chaos</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Toast Notifications</h2>
+      <div class="animation-controls">
+        <button id="slideInRightButton" class="btn-primary">Slide Right</button>
+        <button id="slideInBottomButton" class="btn-secondary">Slide Bottom</button>
+        <button id="zoomBurstButton" class="btn-success">Zoom Burst</button>
+        <button id="wiggleInButton" class="btn-danger">Wiggle In</button>
+        <button id="dropBounceButton" class="btn-warning">Drop Bounce</button>
+      </div>
+      <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Dialog/Modal</h2>
+      <div class="animation-controls">
+        <button id="explosiveZoomButton" class="btn-primary">Explosive Zoom</button>
+        <button id="slamTopButton" class="btn-secondary">Slam Top</button>
+        <button id="slamLeftButton" class="btn-success">Slam Left</button>
+        <button id="bounceInButton" class="btn-danger">Bounce In</button>
+      </div>
+
+      <div id="demoModal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+          <h3>Modal Title</h3>
+          <p>This is a sample modal dialog that demonstrates the enhanced animation capabilities of Turbulence.</p>
+          <button id="closeModalButton" class="btn-primary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Dropdown Menu</h2>
+      <div class="dropdown">
+        <button id="dropdownToggle" class="btn-primary">Toggle Dropdown</button>
+        <div id="dropdownMenu" class="dropdown-menu">
+          <div class="dropdown-item">Option 1</div>
+          <div class="dropdown-item">Option 2</div>
+          <div class="dropdown-item">Option 3</div>
+          <div class="dropdown-item">Option 4</div>
+          <div class="dropdown-item">Option 5</div>
+        </div>
+      </div>
+      <div class="animation-controls" style="margin-top: 80px;">
+        <button id="explosiveExpandButton" class="btn-primary">Explosive Expand</button>
+        <button id="cardDeckButton" class="btn-secondary">Card Deck</button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Form Animations</h2>
+      <form id="demoForm">
+        <div class="input-group">
+          <input type="email" id="emailInput" placeholder="Enter your email">
+        </div>
+        <div class="input-group">
+          <select id="planSelect">
+            <option value="">Select a plan</option>
+            <option value="basic">Basic</option>
+            <option value="pro">Pro</option>
+            <option value="enterprise">Enterprise</option>
+          </select>
+        </div>
+        <button type="button" id="validateButton" class="btn-primary">Validate</button>
+        <button type="button" id="successButton" class="btn-success">Success</button>
+      </form>
+    </div>
+
+    <div class="demo-section">
+      <h2>Loading Animations</h2>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div id="loadingSpinner"></div>
+          <button id="toggleSpinnerButton" class="btn-primary" style="margin-top: 20px;">Toggle Spinner</button>
+        </div>
+        <div class="demo-item">
+          <div id="loadingDots" class="loading-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+          <button id="toggleDotsButton" class="btn-primary" style="margin-top: 20px;">Toggle Dots</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Timeline Animation</h2>
+      <div class="demo-item" style="text-align: center;">
+        <div id="timelineDemo">
+          <div id="orderForm">
+            <h4>Order Form</h4>
+            <div class="input-group">
+              <input type="text" placeholder="Product name">
+            </div>
+            <button class="btn-primary">Submit Order</button>
+          </div>
+
+          <div id="successDisplay" style="display: none;">
+            <div id="successIcon" class="success-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <div id="confirmationMessage" class="confirmation-message">
+              <h4>Order Completed!</h4>
+              <p>Your order has been successfully submitted.</p>
+            </div>
+          </div>
+        </div>
+        <button id="startTimelineButton" class="btn-primary" style="margin-top: 20px;">Start Timeline</button>
+      </div>
+    </div>
+
+    <div class="demo-section">
+      <h2>Staggered List Animation</h2>
+      <div id="staggeredList">
+        <div class="list-item">List Item 1</div>
+        <div class="list-item">List Item 2</div>
+        <div class="list-item">List Item 3</div>
+        <div class="list-item">List Item 4</div>
+        <div class="list-item">List Item 5</div>
+      </div>
+      <button id="animateListButton" class="btn-primary" style="margin-top: 20px;">Animate List</button>
+    </div>
+  </div>
+
+  <script src="./mock-turbulencejs.js"></script>
+  <script>
+    // Use the mock in our demo
+    const turbulencejs = turbulencejsMock;
+
+    // BUTTON ANIMATIONS
+    document.getElementById('pulseButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.pulse(e.currentTarget);
+    });
+
+    document.getElementById('bounceButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.bounce(e.currentTarget);
+    });
+
+    document.getElementById('shimmerButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.shimmer(e.currentTarget);
+    });
+
+    document.getElementById('jellyButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.jelly(e.currentTarget);
+    });
+
+    document.getElementById('vibrateButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.vibrate(e.currentTarget);
+    });
+
+    document.getElementById('chaosButton').addEventListener('click', (e) => {
+      turbulencejs.buttons.chaos(e.currentTarget);
+    });
+
+    // TOAST ANIMATIONS
+    document.getElementById('slideInRightButton').addEventListener('click', () => {
+      showToast('Sliding in from right!', 'success', 'slideInBounce', { direction: 'right' });
+    });
+
+    document.getElementById('slideInBottomButton').addEventListener('click', () => {
+      showToast('Sliding in from bottom!', 'info', 'slideInBounce', { direction: 'bottom' });
+    });
+
+    document.getElementById('zoomBurstButton').addEventListener('click', () => {
+      showToast('Zooming in dramatically!', 'warning', 'zoomBurst', { spin: true });
+    });
+
+    document.getElementById('wiggleInButton').addEventListener('click', () => {
+      showToast('Wiggling in!', 'error', 'wiggleIn');
+    });
+
+    document.getElementById('dropBounceButton').addEventListener('click', () => {
+      showToast('Dropping and bouncing!', 'success', 'dropBounce');
+    });
+
+    function showToast(message, type, animationType = 'slideInBounce', animationOptions = {}) {
+      const toastContainer = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      toastContainer.appendChild(toast);
+
+      // Apply the selected animation
+      turbulencejs.toasts[animationType](toast, {
+        ...animationOptions,
+        onComplete: () => {
+          setTimeout(() => {
+            turbulencejs.animate(toast, {
+              opacity: [1, 0],
+              x: [0, 100]
+            }, {
+              duration: 300,
+              onComplete: () => toast.remove()
+            });
+          }, 2000);
+        }
+      });
+    }
+
+    // MODAL/DIALOG ANIMATIONS
+    let currentModalAnimation = 'explosiveZoom';
+
+    document.getElementById('explosiveZoomButton').addEventListener('click', () => {
+      currentModalAnimation = 'explosiveZoom';
+      openModal();
+    });
+
+    document.getElementById('slamTopButton').addEventListener('click', () => {
+      currentModalAnimation = 'slam';
+      openModal({ direction: 'top' });
+    });
+
+    document.getElementById('slamLeftButton').addEventListener('click', () => {
+      currentModalAnimation = 'slam';
+      openModal({ direction: 'left' });
+    });
+
+    document.getElementById('bounceInButton').addEventListener('click', () => {
+      currentModalAnimation = 'bounce3D';
+      openModal();
+    });
+
+    document.getElementById('closeModalButton').addEventListener('click', () => {
+      closeModal();
+    });
+
+    function openModal(options = {}) {
+      const modal = document.getElementById('demoModal');
+      const modalContent = modal.querySelector('.modal-content');
+      const backdrop = modal.querySelector('.modal-backdrop');
+
+      modal.style.display = 'block';
+
+      turbulencejs.animate(backdrop, { opacity: [0, 1] }, { duration: 300 });
+
+      // Use the current selected animation
+      turbulencejs.dialogs[currentModalAnimation](modalContent, {
+        duration: 600,
+        ...options
+      });
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('demoModal');
+      const modalContent = modal.querySelector('.modal-content');
+      const backdrop = modal.querySelector('.modal-backdrop');
+
+      turbulencejs.animate(backdrop, { opacity: [1, 0] }, { duration: 300 });
+
+      // Use the current selected animation for closing
+      turbulencejs.dialogs[currentModalAnimation](modalContent, {
+        duration: 500,
+        reverse: true,
+        onComplete: () => {
+          modal.style.display = 'none';
+        }
+      });
+    }
+
+    // DROPDOWN MENU
+    let currentDropdownAnimation = 'explosiveExpand';
+
+    document.getElementById('explosiveExpandButton').addEventListener('click', () => {
+      currentDropdownAnimation = 'explosiveExpand';
+    });
+
+    document.getElementById('cardDeckButton').addEventListener('click', () => {
+      currentDropdownAnimation = 'cardDeck';
+    });
+
+    document.getElementById('dropdownToggle').addEventListener('click', () => {
+      const dropdownMenu = document.getElementById('dropdownMenu');
+      const isOpen = dropdownMenu.classList.contains('open');
+
+      if (isOpen) {
+        turbulencejs.dropdowns[currentDropdownAnimation](dropdownMenu, {
+          reverse: true,
+          onComplete: () => {
+            dropdownMenu.classList.remove('open');
+          }
+        });
+      } else {
+        dropdownMenu.classList.add('open');
+        turbulencejs.dropdowns[currentDropdownAnimation](dropdownMenu);
+      }
+    });
+
+    // FORM ANIMATIONS
+    document.getElementById('validateButton').addEventListener('click', () => {
+      const emailInput = document.getElementById('emailInput');
+      const emailValue = emailInput.value;
+
+      if (!emailValue.includes('@')) {
+        turbulencejs.forms.shake(emailInput);
+      } else {
+        turbulencejs.forms.highlight(emailInput, {
+          duration: 800
+        });
+      }
+    });
+
+    document.getElementById('successButton').addEventListener('click', () => {
+      turbulencejs.forms.successBounce(document.getElementById('demoForm'));
+    });
+
+    // LOADING ANIMATIONS
+    let spinnerAnimation = null;
+    document.getElementById('toggleSpinnerButton').addEventListener('click', () => {
+      const spinnerContainer = document.getElementById('loadingSpinner');
+
+      if (spinnerAnimation) {
+        spinnerAnimation.stop();
+        spinnerAnimation = null;
+        spinnerContainer.innerHTML = '';
+      } else {
+        spinnerContainer.innerHTML = '<div class="spinner"></div>';
+        spinnerAnimation = turbulencejs.loading.spinner(spinnerContainer.firstChild, {
+          repeat: -1
+        });
+      }
+    });
+
+    let dotsAnimation = null;
+    document.getElementById('toggleDotsButton').addEventListener('click', () => {
+      const dots = document.querySelectorAll('#loadingDots .dot');
+
+      if (dotsAnimation) {
+        dotsAnimation.stop();
+        dotsAnimation = null;
+      } else {
+        dotsAnimation = turbulencejs.loading.dots(dots, {
+          repeat: -1
+        });
+      }
+    });
+
+    // TIMELINE ANIMATION
+    document.getElementById('startTimelineButton').addEventListener('click', () => {
+      const orderForm = document.getElementById('orderForm');
+      const successDisplay = document.getElementById('successDisplay');
+      const successIcon = document.getElementById('successIcon');
+      const confirmationMessage = document.getElementById('confirmationMessage');
+
+      // Show success display
+      successDisplay.style.display = 'block';
+
+      // Create timeline
+      const timeline = turbulencejs.timeline.create();
+
+      // Add animations to timeline
+      timeline
+        .add(turbulencejs.animate(orderForm, { opacity: [1, 0], y: [0, -20] }))
+        .add(turbulencejs.animate(successIcon, { scale: [0, 1.2, 1], opacity: [0, 1] }), 0.5)
+        .add(turbulencejs.animate(confirmationMessage, { opacity: [0, 1], y: [20, 0] }), 0.7);
+
+      // Play timeline
+      timeline.play();
+    });
+
+    // STAGGERED LIST ANIMATION
+    document.getElementById('animateListButton').addEventListener('click', () => {
+      const items = document.querySelectorAll('.list-item');
+
+      turbulencejs.utils.stagger(items, (item, i) => {
+        return turbulencejs.animate(item, {
+          x: [-20, 0],
+          opacity: [0, 1]
+        }, {
+          duration: 300,
+          delay: i * 100
+        });
+      });
+    });
+  </script>
+</body>
+</html>

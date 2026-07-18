@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#11140f">
+  <title>Turbshire Bathaway — invest in better momentum</title>
+  <link rel="stylesheet" href="./style.css">
+  <script>
+    window.addEventListener('error', event => { document.documentElement.dataset.bootError = event.message || 'unknown error'; });
+    window.addEventListener('unhandledrejection', event => { document.documentElement.dataset.bootError = String(event.reason?.message || event.reason || 'unknown rejection'); });
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to dashboard</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" data-sidebar aria-label="Primary navigation">
+      <div class="sidebar-header">
+        <a class="brand" href="#overview" aria-label="Turbshire Bathaway dashboard home">
+          <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+          <span class="brand-copy"><strong>Turbshire</strong><small>Bathaway &amp; motions</small></span>
+        </a>
+        <button class="icon-button sidebar-collapse" type="button" data-action="toggle-sidebar" data-sidebar-toggle aria-expanded="true" aria-controls="primary-nav" aria-label="Collapse sidebar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5M20 4v16"/></svg>
+        </button>
+      </div>
+
+      <nav id="primary-nav" class="primary-nav" aria-label="Workspace">
+        <p class="nav-label">Holdings</p>
+        <a class="nav-item is-active" href="#overview" aria-current="page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v10h-6zM4 14h6v6H4zM14 18h6v2h-6z"/></svg>
+          <span>Overview</span><kbd>G O</kbd>
+        </a>
+        <a class="nav-item" href="#analytics">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/></svg>
+          <span>Analytics</span>
+        </a>
+        <a class="nav-item" href="#customers">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 20v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8m13 10v-2a4 4 0 0 0-3-3.87M16 2.13a4 4 0 0 1 0 7.75"/></svg>
+          <span>Clients</span><span class="nav-count">248</span>
+        </a>
+        <a class="nav-item" href="#components">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5-9 5-9-5 9-5Zm9 10-9 5-9-5m18 5-9 5-9-5"/></svg>
+          <span>Components</span>
+        </a>
+
+        <p class="nav-label nav-label-secondary">Manage</p>
+        <a class="nav-item" href="#customers">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18M7 16l4-5 4 3 5-7"/></svg>
+          <span>Shareholder letters</span>
+        </a>
+        <a class="nav-item" href="#components">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.03 1.56V21h-4v-.08A1.7 1.7 0 0 0 9 19.37a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.63 15 1.7 1.7 0 0 0 3.08 14H3v-4h.08A1.7 1.7 0 0 0 4.63 9a1.7 1.7 0 0 0-.34-1.88l-.06-.06 2.83-2.83.06.06A1.7 1.7 0 0 0 9 4.63h.01A1.7 1.7 0 0 0 10 3.08V3h4v.08A1.7 1.7 0 0 0 15 4.63a1.7 1.7 0 0 0 1.88-.34l.06-.06 2.83 2.83-.06.06A1.7 1.7 0 0 0 19.37 9v.01A1.7 1.7 0 0 0 20.92 10H21v4h-.08A1.7 1.7 0 0 0 19.4 15Z"/></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-lab" data-motion-item>
+        <span class="lab-orbit" aria-hidden="true"><i></i></span>
+        <span><small>Turbulence lab</small><strong data-profile-label>Quiet · Expressive</strong></span>
+        <button class="icon-button" type="button" data-action="open-command" aria-label="Open motion console">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-12m-9 3 3 3-3 3m12-6-3 3 3 3"/></svg>
+        </button>
+      </div>
+
+      <div class="account-control" data-account-control>
+        <button class="account-button" type="button" data-action="toggle-account" data-account-toggle aria-expanded="false" aria-controls="account-menu">
+          <span class="avatar avatar-user">BW</span>
+          <span class="account-copy"><strong>Boron Wuffet</strong><small>Chairdog &amp; CEO</small></span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg>
+        </button>
+        <div id="account-menu" class="popover account-menu" data-account-menu role="menu" hidden>
+          <button type="button" role="menuitem">View portfolio <kbd>⇧P</kbd></button>
+          <button type="button" role="menuitem">Board settings</button>
+          <button type="button" role="menuitem">Keyboard shortcuts <kbd>?</kbd></button>
+          <hr>
+          <button type="button" role="menuitem">Sign out</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar" data-motion-item>
+        <button class="icon-button mobile-menu-button" type="button" data-action="toggle-sidebar" data-sidebar-toggle aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <div class="workspace-switcher">
+          <span class="workspace-dot" aria-hidden="true"></span>
+          <span><small>Conglomerate</small><strong>Turbshire Bathaway</strong></span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg>
+        </div>
+        <div class="topbar-actions">
+          <button class="command-trigger" type="button" data-action="open-command" aria-label="Open motion console">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <span>Search or run a command</span><kbd>⌘ K</kbd>
+          </button>
+          <span class="divider" aria-hidden="true"></span>
+          <button class="icon-button notification-button" type="button" data-action="toast-warning" aria-label="Show notifications">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9m-8 13h4"/></svg>
+            <span></span>
+          </button>
+          <span class="avatar avatar-small">BW</span>
+        </div>
+      </header>
+
+      <main id="main-content" class="main-content">
+        <section id="overview" class="page-intro" aria-labelledby="overview-title">
+          <div data-motion-item>
+            <div class="eyebrow"><span></span> Wednesday, July 15</div>
+            <h1 id="overview-title">Invest in better <em>momentum.</em></h1>
+            <p>Compounding delight since the last page load. Turbulence gives ordinary interfaces unusually good moves—without acquiring a controlling interest in your bundle.</p>
+          </div>
+          <div class="intro-actions" data-motion-item>
+            <button class="button button-secondary" type="button" data-action="replay">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.34 5.66M20 4v7h-7"/></svg>
+              Reinvest entrance
+            </button>
+            <button class="button button-primary" type="button" data-action="open-modal">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Draft shareholder letter
+            </button>
+          </div>
+        </section>
+
+        <section class="kpi-grid" aria-label="Key metrics">
+          <article class="kpi-card kpi-feature" data-motion-item>
+            <div class="card-heading"><span>Motion under management</span><span class="metric-chip positive">↗ 12.4%</span></div>
+            <strong class="metric-value">$84,290</strong>
+            <div class="micro-chart" aria-label="Revenue trending upward">
+              <svg viewBox="0 0 240 52" role="img"><path class="micro-area" d="M0 48 C25 45 24 35 48 37 S75 48 96 29 S130 36 148 20 S186 28 205 11 S230 12 240 3 V52 H0Z"/><path class="micro-line" d="M0 48 C25 45 24 35 48 37 S75 48 96 29 S130 36 148 20 S186 28 205 11 S230 12 240 3"/></svg>
+            </div>
+            <p><span>+$9,320</span> in imaginary market cap</p>
+          </article>
+          <article class="kpi-card" data-motion-item>
+            <div class="card-heading"><span>Delighted interfaces</span><span class="metric-icon tone-lime">↗</span></div>
+            <strong class="metric-value">248</strong>
+            <p><span>18 newly turbulencejs</span> this month</p>
+            <div class="avatar-stack" aria-label="Recent clients"><span>MC</span><span>MH</span><span>BJ</span><span>+15</span></div>
+          </article>
+          <article class="kpi-card" data-motion-item>
+            <div class="card-heading"><span>Delight dividend</span><span class="metric-icon tone-blue">◎</span></div>
+            <strong class="metric-value">72.8%</strong>
+            <p><span>+4.2 points</span> of tasteful mischief</p>
+            <div class="meter"><span style="width:72.8%"></span></div>
+          </article>
+          <article class="kpi-card" data-motion-item>
+            <div class="card-heading"><span>Sproing pipeline</span><span class="metric-icon tone-coral">◇</span></div>
+            <strong class="metric-value">$31.4k</strong>
+            <p><span>8 opportunities</span> to reject boring</p>
+            <div class="signal-row"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </article>
+        </section>
+
+        <section id="analytics" class="section-grid" aria-labelledby="analytics-title">
+          <article class="panel chart-panel" data-motion-item>
+            <div class="panel-header">
+              <div><span class="section-kicker">Compound interest</span><h2 id="analytics-title">Momentum velocity</h2></div>
+              <div class="filter-control" data-filter-control>
+                <button class="button button-compact" type="button" data-action="toggle-filter" data-filter-toggle aria-expanded="false" aria-controls="chart-filter"><span data-filter-label>Last 12 months</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg></button>
+                <div id="chart-filter" class="popover filter-menu" data-filter-menu hidden>
+                  <button type="button" data-filter-value="Last 30 days">Last 30 days</button><button type="button" data-filter-value="Last 6 months">Last 6 months</button><button type="button" data-filter-value="Last 12 months" class="is-selected">Last 12 months</button>
+                </div>
+              </div>
+            </div>
+            <div class="chart-summary"><strong>$842k</strong><span class="metric-chip positive">↗ 18.2%</span><small>Fictional delight retained</small></div>
+            <div class="main-chart" aria-label="Illustrative momentum rose from 42 to 93 thousand units">
+              <div class="chart-axis"><span>$100k</span><span>$75k</span><span>$50k</span><span>$25k</span><span>$0</span></div>
+              <svg viewBox="0 0 700 270" role="img">
+                <defs><linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7f34a" stop-opacity=".32"/><stop offset="1" stop-color="#b7f34a" stop-opacity="0"/></linearGradient></defs>
+                <g class="grid-lines"><path d="M0 24H700M0 80H700M0 136H700M0 192H700M0 248H700"/></g>
+                <path class="area-path" d="M0 224 C50 220 55 188 110 191 S180 208 230 162 S310 172 362 130 S455 151 505 93 S592 103 640 60 S682 39 700 35 V270H0Z"/>
+                <path class="line-path" d="M0 224 C50 220 55 188 110 191 S180 208 230 162 S310 172 362 130 S455 151 505 93 S592 103 640 60 S682 39 700 35"/>
+                <g class="chart-points"><circle cx="110" cy="191" r="5"/><circle cx="230" cy="162" r="5"/><circle cx="362" cy="130" r="5"/><circle cx="505" cy="93" r="5"/><circle cx="640" cy="60" r="5"/></g>
+              </svg>
+              <div class="chart-labels"><span>Aug</span><span>Oct</span><span>Dec</span><span>Feb</span><span>Apr</span><span>Jun</span><span>Jul</span></div>
+            </div>
+          </article>
+
+          <article class="panel activity-panel" data-motion-item>
+            <div class="panel-header"><div><span class="section-kicker">Ticker tape</span><h2>What compounded</h2></div><button class="text-button" type="button" data-action="toast-success">View all</button></div>
+            <ul class="activity-list" data-activity-list></ul>
+            <button class="activity-footer" type="button" data-action="toast-success"><span class="live-dot"></span> Watching the motion market <span>→</span></button>
+          </article>
+        </section>
+
+        <section id="customers" class="panel table-panel" data-motion-item aria-labelledby="customers-title">
+          <div class="panel-header table-heading">
+            <div><span class="section-kicker">Highly diversified-ish</span><h2 id="customers-title">Clients in the Turbshire portfolio</h2><p>Captains of industry. Titans of typo. Entirely invented for testing Turbulence.</p></div>
+            <div class="table-actions"><label class="table-search"><span class="sr-only">Search clients</span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" placeholder="Search clients"></label><button class="button button-compact" type="button">Export holdings</button></div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Client</th><th>Position</th><th>Turbulence adoption</th><th>Outlook</th><th class="numeric">Motion AUM</th></tr></thead>
+              <tbody data-customer-rows></tbody>
+            </table>
+          </div>
+          <div class="table-footer"><span>Showing 5 of 248 completely real-ish clients</span><div><button class="icon-button" disabled aria-label="Previous page">←</button><button class="icon-button" type="button" data-action="toast-success" aria-label="Next page">→</button></div></div>
+        </section>
+
+        <section id="components" class="component-section" aria-labelledby="components-title">
+          <div class="section-intro" data-motion-item><div><span class="section-kicker">Due diligence lab</span><h2 id="components-title">Inspect the unusual assets.</h2></div><p>Stress the loading states, interrupt an entrance, and replay the page. Turbulence keeps the fundamentals sound while the interface takes creative risks.</p></div>
+          <div class="component-grid">
+            <article class="panel state-card" data-motion-item>
+              <div class="panel-header"><div><span class="section-kicker">Market conditions</span><h3>Motion fundamentals</h3></div><span class="status status-healthy">Bullish</span></div>
+              <div class="segmented state-switcher" aria-label="Preview state">
+                <button type="button" data-state-action="success" aria-pressed="true" class="is-active">Ready</button>
+                <button type="button" data-state-action="loading" aria-pressed="false">Loading</button>
+                <button type="button" data-state-action="empty" aria-pressed="false">Empty</button>
+                <button type="button" data-state-action="error" aria-pressed="false">Error</button>
+              </div>
+              <div class="state-preview">
+                <div data-preview-state="success"><div class="health-score"><span>91</span><small>Turbulence</small></div><div><strong>Everything is moving.</strong><p>Delight is up. Bundle weight is behaving.</p></div></div>
+                <div data-preview-state="loading" hidden><span class="skeleton skeleton-round"></span><span><i class="skeleton"></i><i class="skeleton short"></i></span><span class="loading-dots" data-loading-dots></span></div>
+                <div data-preview-state="empty" hidden><span class="empty-glyph">◇</span><div><strong>No holdings yet.</strong><p>Diversify into a tasteful wobble.</p></div></div>
+                <div data-preview-state="error" hidden><span class="error-glyph">!</span><div><strong>The market did a flip.</strong><p>Your state is safe. Long-term holders may retry.</p></div><button class="button button-compact" type="button" data-state-action="success">Buy the dip</button></div>
+              </div>
+            </article>
+
+            <article class="panel component-card" data-motion-item>
+              <div class="panel-header"><div><span class="section-kicker">Feedback stack</span><h3>Make some noise</h3></div><span class="component-swatch"></span></div>
+              <p>Declare dividends of contextual feedback, from prudent to impossible to ignore.</p>
+              <div class="button-stack"><button class="button button-primary" type="button" data-action="toast-success">Success toast</button><button class="button button-secondary" type="button" data-action="toast-warning">Warning toast</button><button class="button button-ghost" type="button" data-action="toast-error">Error toast</button></div>
+              <div class="component-tags"><span>Toast</span><span>Ripple</span><span>Exit</span></div>
+            </article>
+
+            <article class="panel component-card command-promo" data-motion-item>
+              <span class="command-orbit" aria-hidden="true"><i></i><i></i><i></i></span>
+              <div><span class="section-kicker">Motion exchange</span><h3>Trade in the laws of physics.</h3><p>Go long on Waterfall. Acquire Sproing. Short boring interfaces into oblivion.</p></div>
+              <button class="button button-inverse" type="button" data-action="open-command">Open console <kbd>⌘ K</kbd></button>
+            </article>
+          </div>
+          <div class="turbulence-lab panel" data-motion-item data-turbulence-lab>
+            <div class="panel-header"><div><span class="section-kicker">Speculative holdings</span><h3>Turbulence desk</h3><p>Pixel securities are volatile. Semantic assets remain fully backed.</p></div><span class="status status-healthy" data-turbulence-status>Ready</span></div>
+            <div class="turbulence-controls" aria-label="Turbulence experiment controls">
+              <label>Fidelity <select data-turbulence-fidelity><option value="invaders">Invaders</option><option value="blocks" selected>Blocks</option><option value="pixel">Pixel</option></select></label>
+              <label>Seed <select data-turbulence-seed><option value="turbshire-a">Turbshire A</option><option value="turbshire-b">Turbshire B</option><option value="boron-wuffet">Boron Wuffet</option></select></label>
+              <label>Sidebar finish <select data-sidebar-variant><option value="sweep">Sweep</option><option value="glow">Glow</option><option value="settle">Settle</option><option value="mixed">Mixed</option></select></label>
+              <label>Tetris win <select data-tetris-variant><option value="flash-reveal">Flash + reveal</option><option value="reveal">Reveal</option><option value="settle">Settle</option><option value="none">No flash</option></select></label>
+            </div>
+            <div class="turbulence-grid">
+              <div>
+                <div class="turbulence-fixture snap-fixture" data-snap-fixture tabindex="0" role="group" aria-label="Snaporate preview"><strong>SNAP</strong><small>64 synthetic shares</small></div>
+                <div class="button-row"><button class="button button-primary button-compact" type="button" data-turbulence="snap-out">Snaporate out</button><button class="button button-secondary button-compact" type="button" data-turbulence="snap-in">Snaporate in</button></div>
+              </div>
+              <div>
+                <div class="turbulence-fixture enhance-fixture" data-enhance-fixture tabindex="0" role="group" aria-label="Enhance preview"><strong>ENHANCE</strong><small>Preview → final fundamentals</small></div>
+                <div class="button-row"><button class="button button-primary button-compact" type="button" data-turbulence="enhance">Run Enhance</button><button class="button button-ghost button-compact" type="button" data-turbulence="enhance-retry">Prove retry</button></div>
+              </div>
+            </div>
+            <div class="coordinator-experiments">
+              <div>
+                <strong>Sidebar Ready</strong><small>Reprice the actual navigation, then signal readiness.</small>
+                <button class="button button-secondary button-compact" type="button" data-turbulence="sidebar-ready">Run Sidebar Ready</button>
+              </div>
+              <div>
+                <strong>Tetris Load</strong><small>Three blank assets land; content pays a win dividend.</small>
+                <div class="tetris-fixture" data-tetris-group>
+                  <article data-tetris-card><i data-tetris-block></i><span data-tetris-content>H</span></article>
+                  <article data-tetris-card><i data-tetris-block></i><span data-tetris-content>E</span></article>
+                  <article data-tetris-card><i data-tetris-block></i><span data-tetris-content>RK</span></article>
+                </div>
+                <button class="button button-secondary button-compact" type="button" data-turbulence="tetris">Run Tetris Load</button>
+              </div>
+            </div>
+            <code data-turbulence-diagnostics>renderer idle · resources 0 · no active surfaces</code>
+            <pre class="turbulence-code" data-turbulence-code><code>snaporate.out(source, { fidelity: 'blocks' })</code></pre>
+          </div>
+        </section>
+
+        <footer class="page-footer" data-motion-item><span><i></i> Turbulence is compounding locally</span><span>Past animation performance may cause future delight · No actual securities offered</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" data-toast-region aria-live="polite" aria-label="Notifications"></div>
+  <div class="sr-only" data-drag-announcer aria-live="polite" aria-atomic="true"></div>
+
+  <div class="dialog-layer" data-report-modal role="dialog" aria-modal="true" aria-labelledby="report-title" aria-hidden="true" hidden>
+    <button class="dialog-backdrop" type="button" tabindex="-1" data-action="close-dialog" aria-label="Close report dialog"></button>
+    <div class="dialog-panel report-dialog" data-dialog-panel>
+      <div class="dialog-accent" aria-hidden="true"></div>
+      <div class="dialog-header"><div><span class="section-kicker">From the desk of Boron</span><h2 id="report-title">Draft a shareholder letter</h2></div><button class="icon-button" type="button" data-action="close-dialog" aria-label="Close dialog">×</button></div>
+      <form data-report-form novalidate>
+        <label>Letter title<input type="text" name="reportName" autocomplete="off" autofocus placeholder="e.g. On the compounding value of sproing" aria-describedby="report-error"></label>
+        <div class="field-grid"><label>Audience<select name="audience"><option>Esteemed shareholders</option><option>Animation skeptics</option><option>The board</option></select></label><label>Cadence<select name="cadence"><option>One time</option><option>Quarterly-ish</option><option>Whenever markets wobble</option></select></label></div>
+        <label class="toggle-row"><input type="checkbox" checked><span class="toggle-control"></span><span><strong>Include Turbulence thesis</strong><small>Explain why playful motion is a durable competitive advantage.</small></span></label>
+        <p id="report-error" class="form-error" data-form-error aria-live="polite"></p>
+        <div class="dialog-actions"><button class="button button-ghost" type="button" data-action="close-dialog">Cancel</button><button class="button button-primary submit-button" type="submit"><span>Publish letter</span><i></i></button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="dialog-layer command-layer" data-command-dialog role="dialog" aria-modal="true" aria-labelledby="command-title" aria-hidden="true" hidden>
+    <button class="dialog-backdrop" type="button" tabindex="-1" data-action="close-dialog" aria-label="Close motion console"></button>
+    <div class="dialog-panel command-dialog" data-dialog-panel>
+      <div class="command-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" autofocus aria-label="Search motion commands" placeholder="Search motion commands…"><kbd>ESC</kbd></div>
+      <div class="command-body">
+        <div class="command-heading"><div><span class="section-kicker">Motion exchange</span><h2 id="command-title">Choose an investment strategy</h2></div><span class="reduced-status" data-reduced-status><i></i> Full motion</span></div>
+        <div class="profile-grid" role="radiogroup" aria-label="Motion profile">
+          <button type="button" data-profile="quiet" role="radio" aria-checked="true"><span class="profile-glyph glyph-quiet"><i></i><i></i><i></i></span><span><strong>Quiet</strong><small>Crisp and composed</small></span><kbd>1</kbd></button>
+          <button type="button" data-profile="waterfall" role="radio" aria-checked="false"><span class="profile-glyph glyph-waterfall"><i></i><i></i><i></i></span><span><strong>Waterfall</strong><small>Top-down cascade</small></span><kbd>2</kbd></button>
+          <button type="button" data-profile="sproing" role="radio" aria-checked="false"><span class="profile-glyph glyph-sproing"><i></i><i></i><i></i></span><span><strong>Sproing</strong><small>Elastic and bright</small></span><kbd>3</kbd></button>
+          <button type="button" data-profile="slam" role="radio" aria-checked="false"><span class="profile-glyph glyph-slam"><i></i><i></i><i></i></span><span><strong>Slam</strong><small>Fast asymmetric impact</small></span><kbd>4</kbd></button>
+          <button type="button" data-profile="glitch" role="radio" aria-checked="false"><span class="profile-glyph glyph-glitch"><i></i><i></i><i></i></span><span><strong>Glitch</strong><small>Signal break</small></span><kbd>5</kbd></button>
+          <button type="button" data-profile="zeroGravity" role="radio" aria-checked="false"><span class="profile-glyph glyph-gravity"><i></i><i></i><i></i></span><span><strong>Zero Gravity</strong><small>Drift and settle</small></span><kbd>6</kbd></button>
+          <button type="button" data-profile="bubbleIn" role="radio" aria-checked="false"><span class="profile-glyph glyph-bubble"><i></i><i></i><i></i></span><span><strong>Bubble In</strong><small>Buoyant soft settle</small></span><kbd>7</kbd></button>
+          <button type="button" data-profile="skedaddle" role="radio" aria-checked="false"><span class="profile-glyph glyph-skedaddle"><i></i><i></i><i></i></span><span><strong>Skedaddle</strong><small>Cartoon runway entrance</small></span><kbd>8</kbd></button>
+          <button type="button" data-profile="card3D" role="radio" aria-checked="false"><span class="profile-glyph glyph-card"><i></i><i></i><i></i></span><span><strong>3D Card</strong><small>Pitch and land</small></span><kbd>9</kbd></button>
+          <button type="button" data-profile="cinematicSlide" role="radio" aria-checked="false"><span class="profile-glyph glyph-cinematic"><i></i><i></i><i></i></span><span><strong>Cinematic Slide</strong><small>Linear trailer wipe</small></span><kbd>0</kbd></button>
+        </div>
+        <div class="choreography-proof"><span class="section-kicker">Live TurbScript</span><pre><code data-choreography-code>turb.stagger(16, turb.track({ opacity: [0, 1], y: [8, 0] }))</code></pre></div>
+        <div class="command-settings"><div><span class="section-kicker">Risk appetite</span><div class="segmented" aria-label="Animation intensity"><button type="button" data-intensity="restrained" aria-pressed="false">Conservative</button><button type="button" data-intensity="expressive" aria-pressed="true" class="is-active">Growth</button><button type="button" data-intensity="wild" aria-pressed="false">Unregulated</button></div></div><div class="command-actions"><button class="button button-ghost" type="button" data-action="reset">Rebalance</button><button class="button button-primary" type="button" data-action="replay">Compound page ↗</button></div></div>
+        <div class="quick-commands"><span class="section-kicker">Quick trades</span><button type="button" data-action="open-modal"><span>＋</span> Draft letter</button><button type="button" data-action="toast-success"><span>↗</span> Declare dividend</button><button type="button" data-action="toast-error"><span>!</span> Market correction</button></div>
+      </div>
+      <div class="command-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>↵</kbd> Invest</span><span>Compounded by <strong>Turbulence</strong></span></div>
+    </div>
+  </div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

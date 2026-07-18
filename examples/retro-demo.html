@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbulence Animation Library</title>
+  <style>
+    /* Base Styles */
+    :root {
+      --primary: #212121;
+      --secondary: #a1d04e;
+      --accent: #f5f2e3;
+      --bg-light: #f8f4e3;
+      --bg-mid: #e9e2c9;
+      --bg-dark: #d8ceb4;
+      --text: #212121;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--accent);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z' fill='%23a1d04e' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    
+    /* Header with cream paper background */
+    header {
+      text-align: center;
+      padding: 40px 0;
+      position: relative;
+      background-color: var(--bg-mid);
+      border-bottom: 3px solid var(--secondary);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .logo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .logo {
+      max-width: 120px;
+      margin-right: 30px;
+    }
+    
+    .header-title h1 {
+      font-size: 3.5rem;
+      margin: 0;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .header-title p {
+      font-size: 1.2rem;
+      margin: 10px 0 0;
+      font-style: italic;
+      color: var(--primary);
+    }
+    
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      padding: 20px 0;
+      margin-bottom: 60px;
+      background-color: var(--bg-light);
+      border-bottom: 1px solid var(--bg-dark);
+    }
+    
+    nav a {
+      display: inline-block;
+      padding: 8px 24px;
+      margin: 0 15px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      position: relative;
+      transition: all 0.3s;
+      border-radius: 30px;
+    }
+    
+    nav a:hover {
+      background-color: var(--secondary);
+      color: var(--primary);
+    }
+    
+    /* Section Titles */
+    .section-title {
+      text-align: center;
+      margin: 60px 0 40px;
+      position: relative;
+    }
+    
+    .section-title h2 {
+      display: inline-block;
+      position: relative;
+      font-size: 2rem;
+      color: var(--primary);
+      padding: 0 20px;
+      margin: 0;
+      z-index: 1;
+      font-weight: 600;
+    }
+    
+    .section-title h2::before,
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 60px;
+      height: 2px;
+      background-color: var(--secondary);
+    }
+    
+    .section-title h2::before {
+      left: -70px;
+    }
+    
+    .section-title h2::after {
+      right: -70px;
+    }
+    
+    /* Animation Cards with black borders */
+    .animation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 40px;
+      margin: 40px 0;
+    }
+    
+    .animation-card {
+      background-color: var(--bg-light);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .animation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+    }
+    
+    .card-header {
+      background-color: var(--bg-mid);
+      color: var(--primary);
+      padding: 15px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      position: relative;
+      border-bottom: 2px solid var(--primary);
+    }
+    
+    .card-description {
+      padding: 15px;
+      font-style: italic;
+      text-align: center;
+      color: var(--text);
+      border-bottom: 1px solid var(--bg-dark);
+    }
+    
+    .card-demo {
+      padding: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100px;
+      background-color: var(--bg-light);
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a1d04e' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    /* Buttons - consistent styling */
+    .demo-btn {
+      padding: 12px 24px;
+      background-color: var(--secondary);
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+    
+    .demo-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .demo-btn:active {
+      transform: scale(0.95);
+    }
+    
+    /* Dialog Effects Section */
+    .dialog-effects {
+      background-color: var(--bg-light);
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 40px;
+      margin: 40px 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    
+    .dialog-info {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 1.1rem;
+    }
+    
+    .dialog-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 80px;
+      background-color: var(--bg-dark);
+      color: var(--primary);
+      position: relative;
+      border-top: 3px solid var(--secondary);
+    }
+    
+    /* Character Animation */
+    .running-character {
+      position: fixed;
+      bottom: 20px;
+      left: -100px;
+      width: 80px;
+      animation: runAcross 15s linear infinite;
+      z-index: 100;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,0.2));
+    }
+    
+    @keyframes runAcross {
+      0% {
+        left: -100px;
+        transform: scaleX(1);
+      }
+      45% {
+        left: calc(100% + 50px);
+        transform: scaleX(1);
+      }
+      50% {
+        left: calc(100% + 50px);
+        transform: scaleX(-1);
+      }
+      95% {
+        left: -100px;
+        transform: scaleX(-1);
+      }
+      100% {
+        left: -100px;
+        transform: scaleX(1);
+      }
+    }
+    
+    /* Decorative Elements */
+    .deco-element {
+      position: absolute;
+      opacity: 0.05;
+      z-index: -1;
+    }
+    
+    .deco-square {
+      width: 120px;
+      height: 120px;
+      border: 6px solid var(--primary);
+    }
+    
+    .deco-square-1 {
+      top: 20%;
+      left: 10%;
+      transform: rotate(15deg);
+    }
+    
+    .deco-square-2 {
+      bottom: 30%;
+      right: 5%;
+      transform: rotate(-15deg);
+    }
+    
+    /* Code Block Styling */
+    .code-block {
+      background-color: var(--bg-mid);
+      border-left: 4px solid var(--secondary);
+      padding: 20px;
+      border-radius: 4px;
+      font-family: monospace;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
+    /* Intro Section Styling */
+    .intro-container {
+      max-width: 800px;
+      margin: 0 auto 80px;
+      text-align: center;
+      background-color: var(--bg-mid);
+      padding: 40px;
+      border-radius: 12px;
+      border: 2px solid var(--primary);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+    
+    .intro-heading {
+      font-size: 2.4rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+      font-weight: 600;
+    }
+    
+    .intro-heading::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: var(--secondary);
+    }
+    
+    .intro-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 20px;
+      }
+      
+      .animation-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+      }
+      
+      .logo {
+        max-width: 80px;
+      }
+      
+      .header-title h1 {
+        font-size: 2.5rem;
+      }
+      
+      .section-title h2::before,
+      .section-title h2::after {
+        width: 30px;
+      }
+      
+      .section-title h2::before {
+        left: -40px;
+      }
+      
+      .section-title h2::after {
+        right: -40px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .logo-container {
+        flex-direction: column;
+      }
+      
+      .logo {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      nav a {
+        margin: 5px 0;
+      }
+      
+      .dialog-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative Elements -->
+  <div class="deco-element deco-square deco-square-1"></div>
+  <div class="deco-element deco-square deco-square-2"></div>
+  
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo-container">
+        <img src="./showcase/public/images/turbulence-logo.png" alt="Turbulence Logo" class="logo">
+        <div class="header-title">
+          <h1>Turbulence</h1>
+          <p>A Delightfully Retro Animation Library</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Navigation -->
+  <nav>
+    <a href="#" class="nav-link">Buttons</a>
+    <a href="#" class="nav-link">Dialogs</a>
+    <a href="#" class="nav-link">Toasts</a>
+    <a href="#" class="nav-link">Transitions</a>
+    <a href="#" class="nav-link">Docs</a>
+  </nav>
+  
+  <!-- Main Content -->
+  <main class="container">
+    <div class="intro-container">
+      <h2 class="intro-heading">Add delightful, cartoonish motion to your UI</h2>
+      <p class="intro-text">
+        Turbulence brings that classic 1930s animation feel to modern web apps. 
+        Like a dancing cartoon character, your elements will bounce, squash, 
+        stretch and pop with personality!
+      </p>
+    </div>
+    
+    <!-- Button Effects Section -->
+    <div class="section-title">
+      <h2>Cartoonish Button Effects</h2>
+    </div>
+    
+    <div class="animation-grid">
+      <!-- Boing Animation -->
+      <div class="animation-card">
+        <div class="card-header">Boing!</div>
+        <div class="card-description">Exaggerated squash and stretch.</div>
+        <div class="card-demo">
+          <button class="demo-btn">Click Me</button>
+        </div>
+      </div>
+      
+      <!-- Jelly Animation -->
+      <div class="animation-card">
+        <div class="card-header">Jelly</div>
+        <div class="card-description">Wobbly, gelatinous effect.</div>
+        <div class="card-demo">
+          <button class="demo-btn">Click Me</button>
+        </div>
+      </div>
+      
+      <!-- Explode Animation -->
+      <div class="animation-card">
+        <div class="card-header">Explode</div>
+        <div class="card-description">Burst effect with particles.</div>
+        <div class="card-demo">
+          <button class="demo-btn">Click Me</button>
+        </div>
+      </div>
+      
+      <!-- Spring Crazy Animation -->
+      <div class="animation-card">
+        <div class="card-header">Spring Crazy</div>
+        <div class="card-description">Wild bouncing spring effect.</div>
+        <div class="card-demo">
+          <button class="demo-btn">Click Me</button>
+        </div>
+      </div>
+      
+      <!-- Poof Animation -->
+      <div class="animation-card">
+        <div class="card-header">Poof!</div>
+        <div class="card-description">Disappear in a puff of smoke.</div>
+        <div class="card-demo">
+          <button class="demo-btn">Click Me</button>
+        </div>
+      </div>
+      
+      <!-- Rubber Band Animation -->
+      <div class="animation-card">
+        <div class="card-header">Rubber Band</div>
+        <div class="card-description">Stretches and snaps back (Hover).</div>
+        <div class="card-demo">
+          <button class="demo-btn">Hover Me</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dialog Effects Section -->
+    <div class="section-title">
+      <h2>Dramatic Dialog Effects</h2>
+    </div>
+    
+    <div class="dialog-effects">
+      <div class="dialog-info">
+        <p>Click buttons to open a modal with different animations.</p>
+      </div>
+      <div class="dialog-buttons">
+        <button class="demo-btn">Explosive Zoom</button>
+        <button class="demo-btn">Slam In</button>
+        <button class="demo-btn">Cartoon Run In</button>
+        <button class="demo-btn">Drop & Squash</button>
+        <button class="demo-btn">Helicopter</button>
+        <button class="demo-btn">3D Flip</button>
+        <button class="demo-btn">Glitch</button>
+        <button class="demo-btn">Paper Fold</button>
+      </div>
+    </div>
+    
+    <!-- Quick Start Section -->
+    <div class="section-title">
+      <h2>Quick Start</h2>
+    </div>
+    
+    <div style="background-color: var(--bg-light); border: 2px solid var(--primary); border-radius: 12px; padding: 40px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);">
+      <p style="margin-top: 0; font-size: 1.1rem;">Add Turbulence to your project:</p>
+      <div class="code-block">
+        <code>npm install turbulencejs</code>
+      </div>
+      
+      <p style="font-size: 1.1rem;">Basic usage:</p>
+      <div class="code-block">
+        <code>import turbulencejs from 'turbulencejs';</code><br>
+        <code>const button = document.querySelector('.my-button');</code><br>
+        <code>button.addEventListener('click', () => turbulencejs.buttons.boing(button));</code>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Running Character -->
+  <img src="./showcase/public/images/turbulence-logo.png" alt="Running Turbulence" class="running-character">
+  
+  <!-- Footer -->
+  <footer>
+    <p style="font-size: 1.2rem; margin-bottom: 10px;">Turbulence Animation Library • Est 2025</p>
+    <p style="font-size: 1rem; margin: 0;">A lightweight cartoon animation library for delightful interfaces</p>
+  </footer>
+</body>
+</html>

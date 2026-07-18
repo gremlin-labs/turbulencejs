@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turbulence surface benchmark</title>
+    <style>
+      body { margin: 0; padding: 2rem; background: #f3f6f1; color: #162019; font: 15px/1.5 ui-monospace, monospace; }
+      main { max-width: 900px; margin: auto; }
+      table { width: 100%; border-collapse: collapse; background: white; }
+      th, td { padding: .65rem; border: 1px solid #cbd5c8; text-align: right; }
+      th:first-child, td:first-child { text-align: left; }
+      #fixture { position: fixed; left: -10000px; top: 0; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Surface policy benchmark</h1>
+      <p id="status" role="status">Running…</p>
+      <table aria-label="Surface benchmark results">
+        <thead><tr><th>Fixture</th><th>Setup ms</th><th>Mean frame ms</th><th>Max frame ms</th><th>Long tasks</th><th>Cleanup</th></tr></thead>
+        <tbody id="results"></tbody>
+      </table>
+      <h2>Renderer and source conformance</h2>
+      <table aria-label="Renderer conformance results">
+        <thead><tr><th>Case</th><th>Requested</th><th>Selected</th><th>Fallbacks</th><th>Cleanup</th></tr></thead>
+        <tbody id="renderer-results"></tbody>
+      </table>
+      <div id="fixture" aria-hidden="true"></div>
+    </main>
+    <script type="module" src="./surface-benchmark.js"></script>
+  </body>
+</html>

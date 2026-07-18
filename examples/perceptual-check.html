@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Turbulence perceptual check</title>
+  <style>
+    :root { color-scheme: light dark; font: 16px/1.5 system-ui, sans-serif; }
+    body { margin: 0; padding: 32px; background: #111827; color: #f9fafb; }
+    main { max-width: 920px; margin: auto; }
+    h1 { margin: 0 0 8px; }
+    p { color: #cbd5e1; }
+    .controls, .stage { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
+    button { border: 0; border-radius: 9px; padding: 10px 14px; background: #2563eb; color: white; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #93c5fd; outline-offset: 3px; }
+    .card { width: 170px; min-height: 100px; padding: 18px; border-radius: 14px; background: #1f2937; box-shadow: 0 12px 30px #0004; }
+    #path-target { width: 32px; height: 32px; border-radius: 50%; background: #f59e0b; }
+    #dropdown { overflow: visible; height: 44px; opacity: 1; }
+    #load { display: grid; grid-template-columns: repeat(20, 8px); gap: 5px; min-height: 48px; align-items: center; }
+    #load span { width: 8px; height: 8px; border-radius: 50%; background: #34d399; }
+    output { display: block; min-height: 24px; padding: 12px; border-radius: 8px; background: #030712; color: #86efac; font-family: ui-monospace, monospace; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Turbulence perceptual check</h1>
+    <p>Exercises normal motion, repetition, interruption, representative load, path rotation, and spring retargeting.</p>
+    <div class="controls">
+      <button id="normal">Normal motion</button>
+      <button id="repeat">Repeat ripple</button>
+      <button id="interrupt">Interrupt dropdown</button>
+      <button id="load-button">Representative load</button>
+    </div>
+    <div class="stage">
+      <div id="card" class="card">Transform composition</div>
+      <div id="dropdown" class="card">Dropdown cleanup</div>
+      <div class="card"><div id="path-target" aria-label="path target"></div></div>
+      <div id="load" class="card" aria-label="load targets"></div>
+    </div>
+    <output id="status" aria-live="polite">ready</output>
+  </main>
+  <script>
+    if (new URLSearchParams(location.search).has('reduce')) {
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        value: query => ({
+          matches: query === '(prefers-reduced-motion: reduce)',
+          media: query,
+          addEventListener() {},
+          removeEventListener() {}
+        })
+      });
+    }
+    document.documentElement.dataset.reduced = String(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  </script>
+  <script type="module">
+    import turbulencejs from '../dist/turbulencejs.esm.js';
+
+    const status = document.querySelector('#status');
+    const card = document.querySelector('#card');
+    const dropdown = document.querySelector('#dropdown');
+    const pathTarget = document.querySelector('#path-target');
+    const load = document.querySelector('#load');
+    let normalRuns = 0;
+    load.replaceChildren(...Array.from({ length: 100 }, () => document.createElement('span')));
+
+    document.querySelector('#normal').addEventListener('click', () => {
+      normalRuns += 1;
+      card.style.transform = 'rotate(2deg) scale(1)';
+      turbulencejs.animate(card, { x: [0, 50, 0], scale: [1, 1.08, 1] }, {
+        ...turbulencejs.motion.options('stateEnter'),
+        onComplete: () => { status.value = `normal #${normalRuns}: ${card.style.transform}`; }
+      });
+      turbulencejs.path.follow(pathTarget, 'M 0 0 Q 60 -50 120 0', { duration: 500, rotate: true });
+      const spring = turbulencejs.spring.to(card, 'y', -8, turbulencejs.spring.gentle());
+      setTimeout(() => spring.retarget(0), 120);
+    });
+
+    document.querySelector('#repeat').addEventListener('click', () => {
+      let count = 0;
+      const run = () => {
+        if (count >= 8) { status.value = `repeat: ${card.children.length} temporary nodes`; return; }
+        count += 1;
+        turbulencejs.buttons.ripple(card, { duration: 80, onComplete: run });
+      };
+      run();
+    });
+
+    document.querySelector('#interrupt').addEventListener('click', () => {
+      dropdown.style.display = '';
+      dropdown.style.overflow = 'visible';
+      dropdown.style.height = '44px';
+      dropdown.style.opacity = '1';
+      const controller = turbulencejs.dropdowns.explosiveExpand(dropdown, { reverse: true, duration: 500 });
+      setTimeout(() => {
+        controller.stop();
+        status.value = `interrupt: overflow=${dropdown.style.overflow}, height=${dropdown.style.height}, opacity=${dropdown.style.opacity}`;
+      }, 80);
+    });
+
+    document.querySelector('#load-button').addEventListener('click', () => {
+      const started = performance.now();
+      [...load.children].forEach((dot, index) => {
+        turbulencejs.animate(dot, { y: [0, -8, 0], opacity: [0.5, 1] }, {
+          duration: 180,
+          delay: index % 10,
+          easing: 'quadOut',
+          onComplete: index === 99 ? () => { status.value = `load: ${Math.round(performance.now() - started)}ms`; } : undefined
+        });
+      });
+    });
+
+    window.turbulencejsFixture = { turbulencejs, card, dropdown, pathTarget, status };
+  </script>
+</body>
+</html>

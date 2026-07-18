@@ -1,4 +1,4 @@
-# Turbulence
+# Effects
 
 `turbulencejs/effects` is the experimental recipe pack for motion that is intentionally more theatrical than a conventional component transition. It depends on public `turbulencejs` and `turbulencejs/surfaces` exports, so the core UMD remains independent.
 

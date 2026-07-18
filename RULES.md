@@ -2,7 +2,7 @@
 
 ## Directory layout
 
-- `src/` contains publishable library source grouped into `core/`, `animations/`, and `utils/`.
+- `src/` contains publishable library source. Platform-neutral behavior lives in `runtime/`; browser behavior in `core/`, `turbscript/`, recipes, surfaces, and interactions; process adapters in `dom/` and `main/`.
 - `examples/` contains standalone examples. The Vite showcase remains a nested private package at `examples/showcase/`.
 - `dist/` contains generated package output and is never committed.
 - `agent-work/` contains local audit, planning, and execution history and is never committed or published.

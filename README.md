@@ -1,6 +1,6 @@
-# Turbulence
+# TurbulenceJS
 
-Turbulence is a framework-agnostic browser animation library for interface feedback, state transitions, loaders, and occasional expressive motion. It provides a small core engine, component-oriented presets, timelines, bounded spring physics, and compiled motion paths.
+TurbulenceJS is a zero-runtime-dependency motion system for web and Electron applications. One package provides direct CSS animation, TurbScript choreography, reusable recipes, bounded visual surfaces, accessible interactions, a platform-neutral tween/spring runtime, DOM rendering, and Electron-main layout coordination.
 
 The package verifier measures the core browser bundle and each opt-in recipe pack. Size is reported as an optimization signal rather than used to remove expressive features prematurely.
 
@@ -97,8 +97,77 @@ See [the TurbScript language guide](docs/turbscript.md) for grammar, targets, de
 | Capture/render bounded raster surfaces | `turbulencejs/surfaces` |
 | Use Snaporate, Enhance, Sidebar Ready, or Tetris Load | `turbulencejs/effects` |
 | Own hover/focus or drag/drop motion | `turbulencejs/interact` |
+| Drive generic values with an injected clock | `Turbulence` or `turbulencejs/runtime` |
+| Animate DOM transform/style channels with retargeting | `turbulencejs/dom` |
+| Animate Electron bounds or synchronized regions | `turbulencejs/main` |
 
 Property tracks and custom drivers share one timeline. A driver receives deterministic progress and a lifecycle scope; it must not schedule its own animation frame or commit application state. Named marks let host code mount or commit content without running arbitrary callbacks inside compile/render. See [advanced drivers and mark semantics](docs/turbscript.md#advanced-drivers-and-marks).
+
+## Generic runtime
+
+The root preserves the platform-neutral Turbulence engine. Supply a driver explicitly; the engine never assumes a browser or Electron process.
+
+```js
+import { Turbulence, manualDriver } from 'turbulencejs';
+
+const driver = manualDriver();
+const engine = new Turbulence({ driver });
+const tween = engine.tween({
+  from: { x: 0, opacity: 0 },
+  to: { x: 120, opacity: 1 },
+  duration: 240,
+  easing: 'smooth',
+  onUpdate: value => render(value)
+});
+
+driver.step(120);
+tween.retarget({ x: 40, opacity: 1 });
+driver.step(240);
+await tween.finished; // always resolves; cancellation does not reject
+engine.dispose();
+```
+
+`Turbulence`, `Tween`, `Spring`, `Ticker`, `rafDriver`, `timerDriver`, `manualDriver`, interpolation helpers, and choreography functions are available from both the root and `turbulencejs/runtime`. The root `easing` namespace contains strict `resolve()` plus the browser-oriented `createEasing()` parser.
+
+## DOM and Electron
+
+Renderer code can animate independent transform, opacity, custom-property, and explicitly seeded style channels. Repeated calls retarget the in-flight channel without a visual jump.
+
+```js
+import { createEngine, DomAnimator } from 'turbulencejs/dom';
+
+const engine = createEngine();
+const animator = new DomAnimator(engine);
+const entrance = animator.animate(panel, { x: 0, opacity: 1 }, {
+  from: { opacity: 0 },
+  duration: 180,
+  easing: 'snappy'
+});
+
+await entrance.finished;
+animator.dispose();
+engine.dispose(); // also removes the reduced-motion media-query listener
+```
+
+Electron main-process code uses timer-driven bounds and layout adapters with no browser-global access:
+
+```js
+import { createEngine, BoundsAnimator, Layout } from 'turbulencejs/main';
+
+const engine = createEngine({ fps: 60 });
+const bounds = new BoundsAnimator(engine);
+await bounds.animate(window, nextBounds, { duration: 240 }).finished;
+
+const layout = new Layout(engine, state => ({
+  sidebar: { x: 0, y: 0, width: state.sidebar, height: state.height },
+  content: { x: state.sidebar, y: 0, width: state.width - state.sidebar, height: state.height }
+}));
+layout.onRegion('content', rect => view.setBounds(rect));
+layout.set(initialState);
+layout.animateTo(expandedState);
+```
+
+See [Electron process and lifecycle guidance](docs/electron.md) and the [package entrypoint matrix](docs/package-entrypoints.md).
 
 ## Optional visual and interaction runtimes
 
@@ -263,9 +332,11 @@ npm run lint
 npm run motion:check
 npm run build
 npm run verify:package
+npm run verify:consumers
+ELECTRON_BIN=/path/to/electron npm run verify:electron
 ```
 
-The package verifier packs the actual publishable artifact, instantiates representative root/surface/effects/interaction APIs through ESM and CommonJS, checks declarations and the worker asset, asserts optional runtimes stay out of the core UMD, and reports raw plus gzip sizes.
+The package verifier packs the actual publishable artifact, instantiates every public entry through ESM and CommonJS, checks declarations and the worker asset, rejects duplicate runtimes in optional entries, and reports raw plus gzip sizes. Consumer verification installs that tarball into isolated ESM, CommonJS, and Vite projects. Electron verification requires an Electron executable through `ELECTRON_BIN` (or on `PATH`).
 
 ## SaaS motion lab
 

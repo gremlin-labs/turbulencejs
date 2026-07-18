@@ -16,6 +16,11 @@ try {
   execFileSync('tar', ['-xzf', join(temporary, filename), '-C', temporary]);
   const packageRoot = join(temporary, 'package');
   const manifest = JSON.parse(await readFile(join(packageRoot, 'package.json'), 'utf8'));
+  if (manifest.name !== 'turbulencejs' || manifest.version !== '2.0.0') throw new Error('Packed package identity is not turbulencejs@2.0.0.');
+  if (Object.keys(manifest.dependencies ?? {}).length > 0) throw new Error('Packed package unexpectedly has runtime dependencies.');
+  for (const document of ['README.md', 'CHANGELOG.md', 'MIGRATION.md', 'PROVENANCE.md', 'docs/electron.md', 'docs/package-entrypoints.md']) {
+    await readFile(join(packageRoot, document), 'utf8');
+  }
   const esm = await import(pathToFileURL(join(packageRoot, manifest.module)).href);
   const require = createRequire(import.meta.url);
   const commonjs = require(join(packageRoot, manifest.main));
@@ -99,7 +104,7 @@ try {
     if (!distFiles.includes(requiredFile)) throw new Error(`Packed file list is missing ${requiredFile}.`);
   }
   const measuredPacks = Object.entries(packSizes).map(([name, size]) => `${name} ${size.raw} raw/${size.gzip} gzip`).join(', ');
-  console.log(`Package verified: root and recipe-pack import/require/types, browser UMD, surface worker; core browser gzip ${gzipBytes} bytes (historical reference ${historicalReference}, informational only); pack ESM sizes: ${measuredPacks}; worker gzip ${workerBytes}.`);
+  console.log(`Package verified: turbulencejs@2.0.0 identity, zero runtime dependencies, release docs, all ESM/CommonJS/types entries, browser UMD, and surface worker; core browser gzip ${gzipBytes} bytes (historical reference ${historicalReference}, informational only); pack ESM sizes: ${measuredPacks}; worker gzip ${workerBytes}.`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }

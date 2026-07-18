@@ -1,5 +1,6 @@
 import turbulencejs, { animate, direct, easing, manualDriver, Turbulence, turb, motion, path, script, spring, timeline } from 'turbulencejs';
 import runtime, { interpolate, Tween } from 'turbulencejs/runtime';
+import dom, { createEngine as createDomEngine, DomAnimator } from 'turbulencejs/dom';
 import cartoon, { bubbleIn, skedaddle } from 'turbulencejs/cartoon';
 import cinematic, { card3D, cinematicSlide } from 'turbulencejs/cinematic';
 import subtle, { gentleSettle } from 'turbulencejs/subtle';
@@ -62,3 +63,9 @@ runtimeTween.retarget(2).cancel();
 interpolate('#000', '#fff')(0.5);
 void runtime;
 void turbulencejs.Turbulence;
+const domEngine = createDomEngine({ driver });
+const domAnimator = new DomAnimator(domEngine);
+domAnimator.animate(element, { x: 10, opacity: 0.5 }).cancel();
+domAnimator.dispose();
+domEngine.dispose();
+void dom.animate;

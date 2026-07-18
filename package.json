@@ -19,6 +19,12 @@
       "require": "./dist/runtime.cjs",
       "default": "./dist/runtime.js"
     },
+    "./dom": {
+      "types": "./dist/dom.d.ts",
+      "import": "./dist/dom.js",
+      "require": "./dist/dom.cjs",
+      "default": "./dist/dom.js"
+    },
     "./cartoon": {
       "types": "./dist/cartoon.d.ts",
       "import": "./dist/cartoon.js",

@@ -31,7 +31,8 @@ try {
     surfaces: ['surface', 'program', 'dissolve', 'source'],
     effects: ['snaporate', 'enhance', 'sidebarReady', 'tetrisLoad'],
     interact: ['interact', 'hover', 'drag', 'createInteractionSession'],
-    runtime: ['Turbulence', 'Tween', 'Spring', 'Ticker', 'manualDriver', 'interpolate', 'sequence']
+    runtime: ['Turbulence', 'Tween', 'Spring', 'Ticker', 'manualDriver', 'interpolate', 'sequence'],
+    dom: ['Turbulence', 'createEngine', 'DomAnimator', 'detectReducedMotion', 'transformCss']
   };
   const packSizes = {};
   const packedModules = {};
@@ -85,7 +86,7 @@ try {
   const historicalReference = 20 * 1024;
   await readFile(join(packageRoot, manifest.types), 'utf8');
   const distFiles = await readdir(join(packageRoot, 'dist'));
-  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'runtime.js', 'runtime.cjs', 'runtime.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
+  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'runtime.js', 'runtime.cjs', 'runtime.d.ts', 'dom.js', 'dom.cjs', 'dom.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
     if (!distFiles.includes(requiredFile)) throw new Error(`Packed file list is missing ${requiredFile}.`);
   }
   const measuredPacks = Object.entries(packSizes).map(([name, size]) => `${name} ${size.raw} raw/${size.gzip} gzip`).join(', ');

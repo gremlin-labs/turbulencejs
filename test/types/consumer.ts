@@ -1,4 +1,5 @@
-import turbulencejs, { animate, direct, easing, turb, motion, path, script, spring, timeline } from 'turbulencejs';
+import turbulencejs, { animate, direct, easing, manualDriver, Turbulence, turb, motion, path, script, spring, timeline } from 'turbulencejs';
+import runtime, { interpolate, Tween } from 'turbulencejs/runtime';
 import cartoon, { bubbleIn, skedaddle } from 'turbulencejs/cartoon';
 import cinematic, { card3D, cinematicSlide } from 'turbulencejs/cinematic';
 import subtle, { gentleSettle } from 'turbulencejs/subtle';
@@ -52,3 +53,12 @@ const dragSession = drag(element, {
   announce: ({ messageKey }) => void messageKey
 });
 dragSession.cancel().destroy();
+
+const driver = manualDriver();
+const engine = new Turbulence({ driver });
+const runtimeTween: Tween<number> = engine.tween({ from: 0, to: 1, duration: 100 });
+driver.step(16);
+runtimeTween.retarget(2).cancel();
+interpolate('#000', '#fff')(0.5);
+void runtime;
+void turbulencejs.Turbulence;

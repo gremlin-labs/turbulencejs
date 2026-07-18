@@ -13,6 +13,12 @@
       "require": "./dist/turbulencejs.cjs",
       "default": "./dist/turbulencejs.esm.js"
     },
+    "./runtime": {
+      "types": "./dist/runtime.d.ts",
+      "import": "./dist/runtime.js",
+      "require": "./dist/runtime.cjs",
+      "default": "./dist/runtime.js"
+    },
     "./cartoon": {
       "types": "./dist/cartoon.d.ts",
       "import": "./dist/cartoon.js",
@@ -68,6 +74,7 @@
     "build": "node scripts/clean-dist.mjs && rollup -c && node scripts/copy-types.mjs",
     "dev": "rollup -c -w",
     "test": "jest",
+    "test:compat": "npm run build && node --test test/compat-v1/*.test.cjs",
     "lint": "eslint src test examples/showcase/src *.config.js",
     "lifecycle:check": "node scripts/check-lifecycle.mjs",
     "motion:check": "node scripts/check-motion-system.mjs",
@@ -75,7 +82,7 @@
     "verify:package": "node scripts/verify-package.mjs",
     "showcase:build": "npm --prefix examples/showcase run build",
     "showcase:verify": "npm test -- --runInBand && npm run lint && npm run build && npm run showcase:build",
-    "verify": "npm test -- --runInBand && npm run lint && npm run lifecycle:check && npm run motion:check && npm run build && npm run typecheck && npm run verify:package && npm run showcase:build",
+    "verify": "npm test -- --runInBand && npm run lint && npm run lifecycle:check && npm run motion:check && npm run test:compat && npm run typecheck && npm run verify:package && npm run showcase:build",
     "prepublishOnly": "npm run verify"
   },
   "keywords": [

@@ -27,6 +27,7 @@ import * as springModule from './utils/spring';
 // Import path animations
 import * as pathModule from './utils/path';
 import { turb, script, direct } from './turbscript';
+import * as runtimeModule from './runtime';
 
 // Named exports
 export const buttons = buttonsModule;
@@ -36,7 +37,13 @@ export const dialogs = dialogsModule;
 export const dropdowns = dropdownsModule;
 export const loading = loadingModule;
 export const timeline = timelineModule;
-export const easing = easingModule;
+export const easing = {
+  ...easingModule,
+  resolve: runtimeModule.resolve,
+  cubicBezier: runtimeModule.cubicBezier,
+  named: runtimeModule.named,
+  clamp01: runtimeModule.clamp01
+};
 export const motion = { roles: motionModule.motionRoles, options: motionModule.motionOptions };
 export const utils = utilsModule;
 
@@ -56,6 +63,32 @@ export const path = {
 // Re-export core functionality
 export { animate, stop, pause, resume };
 export { turb, script, direct };
+export const VERSION = '2.0.0';
+export const runtime = runtimeModule;
+export const {
+  Turbulence,
+  Tween,
+  Spring,
+  Ticker,
+  rafDriver,
+  timerDriver,
+  manualDriver,
+  MAX_DT,
+  resolve,
+  cubicBezier,
+  named,
+  clamp01,
+  interpolate,
+  lerp,
+  lerpRect,
+  roundRect,
+  isRect,
+  parseColor,
+  formatColor,
+  sequence,
+  parallel,
+  stagger
+} = runtimeModule;
 
 // Create and export default object containing all exports
 const turbulencejs = {
@@ -77,7 +110,31 @@ const turbulencejs = {
   path,
   turb,
   script,
-  direct
+  direct,
+  VERSION,
+  runtime,
+  Turbulence,
+  Tween,
+  Spring,
+  Ticker,
+  rafDriver,
+  timerDriver,
+  manualDriver,
+  MAX_DT,
+  resolve,
+  cubicBezier,
+  named,
+  clamp01,
+  interpolate,
+  lerp,
+  lerpRect,
+  roundRect,
+  isRect,
+  parseColor,
+  formatColor,
+  sequence,
+  parallel,
+  stagger
 };
 
 export default turbulencejs;

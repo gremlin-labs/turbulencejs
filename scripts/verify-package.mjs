@@ -30,7 +30,8 @@ try {
     extreme: ['impactBubble', 'spinAway'],
     surfaces: ['surface', 'program', 'dissolve', 'source'],
     effects: ['snaporate', 'enhance', 'sidebarReady', 'tetrisLoad'],
-    interact: ['interact', 'hover', 'drag', 'createInteractionSession']
+    interact: ['interact', 'hover', 'drag', 'createInteractionSession'],
+    runtime: ['Turbulence', 'Tween', 'Spring', 'Ticker', 'manualDriver', 'interpolate', 'sequence']
   };
   const packSizes = {};
   const packedModules = {};
@@ -45,10 +46,10 @@ try {
     const commonjsCode = await readFile(join(packageRoot, entry.require), 'utf8');
     packSizes[name] = { raw: code.byteLength, gzip: gzipSync(code).byteLength };
     packedModules[name] = { imported, required };
-    if (!code.toString().includes("from 'turbulencejs'") && name !== 'subtle' && name !== 'extreme') {
+    if (!code.toString().includes("from 'turbulencejs'") && name !== 'subtle' && name !== 'extreme' && name !== 'runtime') {
       throw new Error(`${name} ESM pack does not externalize the root Turbulence runtime.`);
     }
-    if (!commonjsCode.includes("require('turbulencejs')") && name !== 'subtle' && name !== 'extreme') {
+    if (!commonjsCode.includes("require('turbulencejs')") && name !== 'subtle' && name !== 'extreme' && name !== 'runtime') {
       throw new Error(`${name} CommonJS pack does not externalize the root Turbulence runtime.`);
     }
     await readFile(join(packageRoot, entry.types), 'utf8');
@@ -84,7 +85,7 @@ try {
   const historicalReference = 20 * 1024;
   await readFile(join(packageRoot, manifest.types), 'utf8');
   const distFiles = await readdir(join(packageRoot, 'dist'));
-  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
+  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'runtime.js', 'runtime.cjs', 'runtime.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
     if (!distFiles.includes(requiredFile)) throw new Error(`Packed file list is missing ${requiredFile}.`);
   }
   const measuredPacks = Object.entries(packSizes).map(([name, size]) => `${name} ${size.raw} raw/${size.gzip} gzip`).join(', ');

@@ -1,3 +1,5 @@
+export * from './runtime.js';
+
 export type EasingFunction = (progress: number) => number;
 export type Easing = string | EasingFunction;
 export type AnimationValue = number | string;
@@ -255,6 +257,8 @@ export const path: {
   create(points: Array<{ x: number; y: number }>, closed?: boolean): string;
 };
 export const utils: Record<string, unknown>;
+export const VERSION: string;
+export * as runtime from './runtime.js';
 
 declare const turbulencejs: {
   animate: typeof animate;
@@ -276,5 +280,18 @@ declare const turbulencejs: {
   turb: typeof turb;
   script: typeof script;
   direct: typeof direct;
+  VERSION: typeof VERSION;
+  runtime: typeof import('./runtime.js');
+  Turbulence: typeof import('./runtime.js').Turbulence;
+  Tween: typeof import('./runtime.js').Tween;
+  Spring: typeof import('./runtime.js').Spring;
+  Ticker: typeof import('./runtime.js').Ticker;
+  rafDriver: typeof import('./runtime.js').rafDriver;
+  timerDriver: typeof import('./runtime.js').timerDriver;
+  manualDriver: typeof import('./runtime.js').manualDriver;
+  interpolate: typeof import('./runtime.js').interpolate;
+  sequence: typeof import('./runtime.js').sequence;
+  parallel: typeof import('./runtime.js').parallel;
+  stagger: typeof import('./runtime.js').stagger;
 };
 export default turbulencejs;

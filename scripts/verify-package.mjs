@@ -32,7 +32,8 @@ try {
     effects: ['snaporate', 'enhance', 'sidebarReady', 'tetrisLoad'],
     interact: ['interact', 'hover', 'drag', 'createInteractionSession'],
     runtime: ['Turbulence', 'Tween', 'Spring', 'Ticker', 'manualDriver', 'interpolate', 'sequence'],
-    dom: ['Turbulence', 'createEngine', 'DomAnimator', 'detectReducedMotion', 'transformCss']
+    dom: ['Turbulence', 'createEngine', 'DomAnimator', 'detectReducedMotion', 'transformCss'],
+    main: ['Turbulence', 'createEngine', 'BoundsAnimator', 'Layout', 'safeSetBounds']
   };
   const packSizes = {};
   const packedModules = {};
@@ -69,6 +70,11 @@ try {
     if (session.state !== 'destroyed') throw new Error('Packed interaction session did not destroy cleanly.');
   }
 
+  const mainEntry = manifest.exports['./main'];
+  const poisonGlobals = `for (const name of ['window', 'document', 'requestAnimationFrame', 'cancelAnimationFrame']) Object.defineProperty(globalThis, name, { configurable: true, get() { throw new Error('main entry accessed ' + name); } });`;
+  execFileSync(process.execPath, ['--input-type=module', '--eval', `${poisonGlobals}\nawait import(${JSON.stringify(pathToFileURL(join(packageRoot, mainEntry.import)).href)});`], { stdio: 'pipe' });
+  execFileSync(process.execPath, ['--eval', `${poisonGlobals}\nrequire(${JSON.stringify(join(packageRoot, mainEntry.require))});`], { stdio: 'pipe' });
+
   const browserCode = await readFile(join(packageRoot, manifest.browser), 'utf8');
   const browserContext = { console, performance: { now: () => 0 }, requestAnimationFrame: () => 1, cancelAnimationFrame() {} };
   browserContext.globalThis = browserContext;
@@ -86,7 +92,7 @@ try {
   const historicalReference = 20 * 1024;
   await readFile(join(packageRoot, manifest.types), 'utf8');
   const distFiles = await readdir(join(packageRoot, 'dist'));
-  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'runtime.js', 'runtime.cjs', 'runtime.d.ts', 'dom.js', 'dom.cjs', 'dom.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
+  for (const requiredFile of ['turbulencejs.esm.js', 'turbulencejs.cjs', 'turbulencejs.min.js', 'index.d.ts', 'runtime.js', 'runtime.cjs', 'runtime.d.ts', 'dom.js', 'dom.cjs', 'dom.d.ts', 'main.js', 'main.cjs', 'main.d.ts', 'surfaces.js', 'surfaces.cjs', 'surfaces.d.ts', 'effects.js', 'effects.cjs', 'effects.d.ts', 'interact.js', 'interact.cjs', 'interact.d.ts', 'surface-worker.js']) {
     if (!distFiles.includes(requiredFile)) throw new Error(`Packed file list is missing ${requiredFile}.`);
   }
   const measuredPacks = Object.entries(packSizes).map(([name, size]) => `${name} ${size.raw} raw/${size.gzip} gzip`).join(', ');

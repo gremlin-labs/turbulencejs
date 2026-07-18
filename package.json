@@ -25,6 +25,12 @@
       "require": "./dist/dom.cjs",
       "default": "./dist/dom.js"
     },
+    "./main": {
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.js",
+      "require": "./dist/main.cjs",
+      "default": "./dist/main.js"
+    },
     "./cartoon": {
       "types": "./dist/cartoon.d.ts",
       "import": "./dist/cartoon.js",

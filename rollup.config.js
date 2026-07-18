@@ -28,7 +28,7 @@ const babelPlugin = targets => babel({
   presets: [['@babel/preset-env', { targets }]]
 });
 
-const packs = ['cartoon', 'cinematic', 'subtle', 'extreme', 'surfaces', 'effects', 'interact', 'runtime', 'dom'];
+const packs = ['cartoon', 'cinematic', 'subtle', 'extreme', 'surfaces', 'effects', 'interact', 'runtime', 'dom', 'main'];
 const packExternals = ['turbulencejs', 'turbulencejs/runtime', 'turbulencejs/cartoon', 'turbulencejs/cinematic', 'turbulencejs/surfaces'];
 
 const packBuilds = packs.flatMap(name => [

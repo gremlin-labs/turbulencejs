@@ -1,6 +1,7 @@
 import turbulencejs, { animate, direct, easing, manualDriver, Turbulence, turb, motion, path, script, spring, timeline } from 'turbulencejs';
 import runtime, { interpolate, Tween } from 'turbulencejs/runtime';
 import dom, { createEngine as createDomEngine, DomAnimator } from 'turbulencejs/dom';
+import main, { BoundsAnimator, Layout } from 'turbulencejs/main';
 import cartoon, { bubbleIn, skedaddle } from 'turbulencejs/cartoon';
 import cinematic, { card3D, cinematicSlide } from 'turbulencejs/cinematic';
 import subtle, { gentleSettle } from 'turbulencejs/subtle';
@@ -69,3 +70,14 @@ domAnimator.animate(element, { x: 10, opacity: 0.5 }).cancel();
 domAnimator.dispose();
 domEngine.dispose();
 void dom.animate;
+declare const boundsTarget: { getBounds(): { x: number; y: number; width: number; height: number }; setBounds(bounds: { x: number; y: number; width: number; height: number }): void; isDestroyed(): boolean };
+const boundsAnimator = new BoundsAnimator(engine);
+boundsAnimator.animate(boundsTarget, { x: 0, y: 0, width: 800, height: 600 }).cancel();
+const layout = new Layout(engine, (state: { sidebar: number }) => ({
+  sidebar: { x: 0, y: 0, width: state.sidebar, height: 600 },
+  content: { x: state.sidebar, y: 0, width: 800 - state.sidebar, height: 600 }
+}));
+layout.onRegion('content', bounds => boundsTarget.setBounds(bounds));
+layout.set({ sidebar: 48 });
+layout.animateTo({ sidebar: 268 }).cancel();
+void main.Turbulence;

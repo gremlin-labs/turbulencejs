@@ -28,8 +28,8 @@ export function transformCss(transform: { x: number; y: number; scale: number; r
 
 export class DomAnimator {
   constructor(engine: Turbulence);
-  set(element: HTMLElement, properties: DomAnimationProperties): void;
-  animate(element: HTMLElement, properties: DomAnimationProperties, options?: DomAnimationOptions): DomAnimationHandle;
+  set(element: Element, properties: DomAnimationProperties): void;
+  animate(element: Element, properties: DomAnimationProperties, options?: DomAnimationOptions): DomAnimationHandle;
   cancelAll(): void;
   dispose(): void;
 }

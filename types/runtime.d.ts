@@ -19,7 +19,7 @@ export interface PlayableResult<T = unknown> {
 
 export interface Playable<T = unknown> {
   readonly finished: Promise<PlayableResult<T>>;
-  cancel(): this | void;
+  cancel(): void;
 }
 
 export class Ticker {

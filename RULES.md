@@ -4,6 +4,7 @@
 
 - `src/` contains publishable library source. Platform-neutral behavior lives in `runtime/`; browser behavior in `core/`, `turbscript/`, recipes, surfaces, and interactions; process adapters in `dom/` and `main/`.
 - `examples/` contains standalone examples. The Vite showcase remains a nested private package at `examples/showcase/`.
+- `skills/` contains portable agent skills. Each published skill must carry every contract, reference, template, and script needed to work when copied independently.
 - `dist/` contains generated package output and is never committed.
 - `agent-work/` contains local audit, planning, and execution history and is never committed or published.
 - Root files are limited to public project documentation, package/build configuration, and repository configuration.

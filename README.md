@@ -169,6 +169,12 @@ layout.animateTo(expandedState);
 
 See [Electron process and lifecycle guidance](docs/electron.md) and the [package entrypoint matrix](docs/package-entrypoints.md).
 
+## Agent-assisted integration
+
+The npm package includes a self-contained `turbulencejs-integration` agent skill. It inspects a web or Electron project, lets the user choose entrypoints, animation style, and intensity from restrained through theatrical, implements the approved selection, verifies reduced motion and lifecycle cleanup, and records the work under `agent-work/{slug}/turbulencejs-integration/`.
+
+Copy `skills/turbulencejs-integration` into the skill directory used by your agent host. It includes its own references, work-artifact contract, templates, selection catalog, and project inspector; gremlin-skills is not required. See [the agent skill guide](docs/agent-skill.md) for installation, invocation examples, architecture, and verification.
+
 ## Optional visual and interaction runtimes
 
 ```js

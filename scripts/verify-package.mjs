@@ -18,9 +18,14 @@ try {
   const manifest = JSON.parse(await readFile(join(packageRoot, 'package.json'), 'utf8'));
   if (manifest.name !== 'turbulencejs' || manifest.version !== '2.0.0') throw new Error('Packed package identity is not turbulencejs@2.0.0.');
   if (Object.keys(manifest.dependencies ?? {}).length > 0) throw new Error('Packed package unexpectedly has runtime dependencies.');
-  for (const document of ['README.md', 'CHANGELOG.md', 'MIGRATION.md', 'PROVENANCE.md', 'docs/electron.md', 'docs/package-entrypoints.md']) {
+  for (const document of ['README.md', 'CHANGELOG.md', 'MIGRATION.md', 'PROVENANCE.md', 'docs/electron.md', 'docs/package-entrypoints.md', 'docs/agent-skill.md', 'skills/turbulencejs-integration/SKILL.md', 'skills/turbulencejs-integration/REFERENCE.md', 'skills/turbulencejs-integration/EXAMPLES.md', 'skills/turbulencejs-integration/WORK-ARTIFACTS.md', 'skills/turbulencejs-integration/catalog.json', 'skills/turbulencejs-integration/scripts/inspect-project.mjs']) {
     await readFile(join(packageRoot, document), 'utf8');
   }
+  for (const template of ['WORK.md', 'DECISIONS.md', 'INTEGRATION-PLAN.md', 'IMPLEMENTATION-REPORT.md']) {
+    await readFile(join(packageRoot, 'skills/turbulencejs-integration/templates', template), 'utf8');
+  }
+  const skillInspection = JSON.parse(execFileSync(process.execPath, [join(packageRoot, 'skills/turbulencejs-integration/scripts/inspect-project.mjs'), packageRoot], { encoding: 'utf8' }));
+  if (skillInspection.name !== 'turbulencejs' || !skillInspection.candidateEntrypoints.includes('turbulencejs')) throw new Error('Packed agent skill project inspector did not run independently.');
   const esm = await import(pathToFileURL(join(packageRoot, manifest.module)).href);
   const require = createRequire(import.meta.url);
   const commonjs = require(join(packageRoot, manifest.main));
@@ -104,7 +109,7 @@ try {
     if (!distFiles.includes(requiredFile)) throw new Error(`Packed file list is missing ${requiredFile}.`);
   }
   const measuredPacks = Object.entries(packSizes).map(([name, size]) => `${name} ${size.raw} raw/${size.gzip} gzip`).join(', ');
-  console.log(`Package verified: turbulencejs@2.0.0 identity, zero runtime dependencies, release docs, all ESM/CommonJS/types entries, browser UMD, and surface worker; core browser gzip ${gzipBytes} bytes (historical reference ${historicalReference}, informational only); pack ESM sizes: ${measuredPacks}; worker gzip ${workerBytes}.`);
+  console.log(`Package verified: turbulencejs@2.0.0 identity, zero runtime dependencies, release docs, portable agent skill, all ESM/CommonJS/types entries, browser UMD, and surface worker; core browser gzip ${gzipBytes} bytes (historical reference ${historicalReference}, informational only); pack ESM sizes: ${measuredPacks}; worker gzip ${workerBytes}.`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }

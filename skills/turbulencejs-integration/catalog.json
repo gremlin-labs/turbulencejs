@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "package": "turbulencejs",
+  "entrypoints": [
+    { "specifier": "turbulencejs", "surface": "browser", "styles": ["core", "product"], "intensity": [0, 3] },
+    { "specifier": "turbulencejs/runtime", "surface": "generic", "styles": ["host-defined"], "intensity": [0, 4] },
+    { "specifier": "turbulencejs/dom", "surface": "renderer", "styles": ["product"], "intensity": [0, 3] },
+    { "specifier": "turbulencejs/main", "surface": "electron-main", "styles": ["spatial"], "intensity": [0, 2] },
+    { "specifier": "turbulencejs/subtle", "surface": "browser", "styles": ["restrained"], "intensity": [0, 1] },
+    { "specifier": "turbulencejs/cartoon", "surface": "browser", "styles": ["playful"], "intensity": [2, 3] },
+    { "specifier": "turbulencejs/cinematic", "surface": "browser", "styles": ["cinematic"], "intensity": [2, 3] },
+    { "specifier": "turbulencejs/extreme", "surface": "browser", "styles": ["high-impact"], "intensity": [3, 4] },
+    { "specifier": "turbulencejs/interact", "surface": "browser", "styles": ["interactive"], "intensity": [0, 3] },
+    { "specifier": "turbulencejs/surfaces", "surface": "browser", "styles": ["theatrical"], "intensity": [3, 4] },
+    { "specifier": "turbulencejs/effects", "surface": "browser", "styles": ["theatrical"], "intensity": [3, 4] },
+    { "specifier": "turbulencejs/surface-worker", "surface": "worker", "styles": ["theatrical"], "intensity": [3, 4] }
+  ],
+  "intensity": [
+    { "level": 0, "name": "essential", "approval": "implicit" },
+    { "level": 1, "name": "restrained", "approval": "implicit" },
+    { "level": 2, "name": "expressive", "approval": "implicit" },
+    { "level": 3, "name": "dramatic", "approval": "explicit" },
+    { "level": 4, "name": "theatrical", "approval": "explicit" }
+  ]
+}

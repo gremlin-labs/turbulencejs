@@ -82,6 +82,7 @@
   "files": [
     "dist",
     "docs",
+    "skills",
     "CHANGELOG.md",
     "MIGRATION.md",
     "PROVENANCE.md"
@@ -95,6 +96,7 @@
     "lifecycle:check": "node scripts/check-lifecycle.mjs",
     "motion:check": "node scripts/check-motion-system.mjs",
     "docs:check": "node scripts/check-docs.mjs",
+    "skills:check": "node scripts/validate-skills.mjs",
     "typecheck": "tsc -p test/types/tsconfig.json",
     "verify:package": "node scripts/verify-package.mjs",
     "verify:browser": "node scripts/verify-browser.mjs",
@@ -102,7 +104,7 @@
     "verify:consumers": "node scripts/verify-consumers.mjs",
     "showcase:build": "npm --prefix examples/showcase run build",
     "showcase:verify": "npm test -- --runInBand && npm run lint && npm run build && npm run showcase:build",
-    "verify": "npm test -- --runInBand && npm run lint && npm run lifecycle:check && npm run motion:check && npm run test:compat && npm run docs:check && npm run typecheck && npm run verify:package && npm run showcase:build",
+    "verify": "npm test -- --runInBand && npm run lint && npm run lifecycle:check && npm run motion:check && npm run test:compat && npm run docs:check && npm run skills:check && npm run typecheck && npm run verify:package && npm run showcase:build",
     "prepublishOnly": "npm run verify"
   },
   "keywords": [

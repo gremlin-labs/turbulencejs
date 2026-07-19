@@ -9,4 +9,4 @@
 - Added one coalescing browser frame scheduler shared by direct animation, TurbScript timelines, and DOM springs; numeric interpolation now shares the generic runtime primitive where CSS semantics match.
 - Added packed ESM, CommonJS, Vite, Electron, declaration, and downstream-shaped verification.
 - Renamed the compositional language to TurbScript and the theatrical recipe entry to `/effects`.
-
+- Added a portable `turbulencejs-integration` agent skill with entrypoint/style/intensity selection, standalone `agent-work` artifacts, deterministic project inspection, and package validation.

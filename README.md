@@ -1,5 +1,7 @@
 # TurbulenceJS
 
+![TurbulenceJS - Javascript Animation Library by gremlinlabs](public/gremlinlabs-turbulencejs.jpg)
+
 TurbulenceJS is a zero-runtime-dependency motion system for web and Electron applications. One package provides direct CSS animation, TurbScript choreography, reusable recipes, bounded visual surfaces, accessible interactions, a platform-neutral tween/spring runtime, DOM rendering, and Electron-main layout coordination.
 
 The package verifier measures the core browser bundle and each opt-in recipe pack. Size is reported as an optimization signal rather than used to remove expressive features prematurely.
